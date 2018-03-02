@@ -44,7 +44,7 @@ public class TRAP extends Abstractinstruction {
             do {
                 cpu.setMAR(cpu.getPC());
                 cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                cpu.setIR(cpu.getMBR());
+                cpu.setIR(cpu.getIntMBR());
                 String ins = StringUtil.decimalToBinary(cpu.getIR(), 16);
                 String opCode = ins.substring(0, 6);
                 if (Const.OPCODE.containsKey(opCode)) {

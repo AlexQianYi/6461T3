@@ -500,7 +500,7 @@ public class ControlPanel extends JFrame{
                     if (label_console_keyboard.getText()==null || label_console_keyboard.getText().length()==0){
                         JOptionPane.showMessageDialog(null, "type 20 numbers in the console keyboard");
                     }else{
-                        printConsole("Below are the 20 numbers: "):
+                        printConsole("Below are the 20 numbers: ");
                         mcu.loadProgram(Program1.Pre);
                         mcu.loadProgram(Program1.PG1_20);
                         cpu.setPC(Const.PG1_BASE_1);
@@ -508,7 +508,7 @@ public class ControlPanel extends JFrame{
                         do{
                             cpu.setMAR(cpu.getPC());
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                            cpu.setIR(cpu.getMBR());
+                            cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfInstruct(), cpu, mcu);
                         }while(cpu.getPC() <= Const.PG1_END_1 && cpu.getPC() >= Const.PG1_BASE_1);
                         refreshRegitersPanel();
@@ -531,19 +531,19 @@ public class ControlPanel extends JFrame{
                     do{
                         cpu.setMAR(cpu.getPC());
                         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                        cpu.setIR(cpu.getMBR());
+                        cpu.setIR(cpu.getIntMBR());
                         runInstruction(cpu.getBinaryStringOfInstruct(), cpu, mcu);
                     }while (cpu.getPC() <= Const.PG1_END_1 && cpu.getPC() >= Const.PG1_BASE_1);
                     
                     System.out.println("start comparing...");
                     printConsole("compare result is (the closeset number is");
-                    mcu.loadPorgram(Program1.Compare);
+                    mcu.loadProgram(Program1.Compare);
                     cpu.setPC(Const.PG1_BASE_2);
                     
                     do{
                         cpu.setMAR(cpu.getPC());
-                        cpu.setMBR(cpu.fetchFromCache(cpu.getMAR()));
-                        cpu.setIR(cpu.getMBR());
+                        cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+                        cpu.setIR(cpu.getIntMBR());
                         runInstruction(cpu.getBinaryStrignOfInstruct(), cpu, mcu);
                     }while(cpu.getPC() <= Const.PG1_END_2 && cpu.getPC() >= Const.PG1_BASE_2);
                     
@@ -553,7 +553,7 @@ public class ControlPanel extends JFrame{
                     do{
                         cpu.setMAR(cpu.getPC());
                         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                        cpu.setIR(cpu.getMBR());
+                        cpu.setIR(cpu.getIntMBR());
                         runInstruction(cpu.getBinaryStingOfInstruct(), cpu, mcu);
                         
                     } while(cpu.getPC() <= Const.PG1_END_3 && cpu.getPC() >= Const.PG1_BASE_3);
@@ -718,28 +718,7 @@ public class ControlPanel extends JFrame{
                 ConsoleString = "";
                 text_console_print.setText("");
             }
-        });
-        
-        
-      
-       
-          
-       
-        /*/last line
-        this.panel_lastline=new JPanel(new FlowLayout(FlowLayout.CENTER,25,10));
-        this.label_opcode=new JLabel("OPCODE:");
-        this.label_opcode_val=new JLabel("");
-        this.label_PC=new JLabel("PC:");
-        this.label_PC_val=new JLabel("");
-        this.label_CC=new JLabel("CC:");
-        this.label_CC_val=new JLabel("");
-        this.panel_lastline.add(label_opcode);
-        this.panel_lastline.add(label_opcode_val);
-        this.panel_lastline.add(label_PC);
-        this.panel_lastline.add(label_PC_val);
-        this.panel_lastline.add(label_CC);
-        this.panel_lastline.add(label_CC_val);
-        this.panel_lastline.setPreferredSize(new Dimension(100, 70));*/
+        });      
         
        
 
@@ -774,6 +753,11 @@ public class ControlPanel extends JFrame{
     public ControlPanel()
     {
         initComponents();
+    }
+    
+    public void initCPU(){
+        this.cpu = new CPU();
+        this.mcu = new MCU();
     }
     
     public void execute(int memoryLocation, boolean Continue, boolean Single) {
@@ -875,7 +859,7 @@ public class ControlPanel extends JFrame{
         this.text_console.setText(ConsoleString);
     }
     
-    private void executeInstruction(String instruction, Registers reg, MCU mcu){
+    private void executeInstruction(String instruction, CPU cpu, MCU mcu){
         
         //execute event
         String opCode = instruction.substring(0,6);
@@ -883,13 +867,13 @@ public class ControlPanel extends JFrame{
             if (instruction.OPCODE.containsKey(opCode)){
                 Abstractinstruction instuct = (Abstractinstruction) Class;
                 .fromName("alu.instruction." + instruction.OPCONDE.get(opCode)).newInstance();
-                instruct.execute(instructoin, reg, mcu);
-                System.out.println("PC: "+reg.getPC()+", instruction: "+instruction);
+                instruct.execute(instructoin, cpu, mcu);
+                System.out.println("PC: "+cpu.getPC()+", instruction: "+instruction);
                 refreshCacheTable();
                 pushConsoleBuffer();
                 
                 String message = instrcut.getExecuteMessage();
-                Systemp.out.println(message);
+                System.out.println(message);
             }else{
                 throw new MachineFaultException(Const.FaultCode.ILL_OPRC.getValue(),
                                                 Const.FaultCode.ILL_OPRC.getMessage());
@@ -918,8 +902,7 @@ public class ControlPanel extends JFrame{
     public void Halt(){
         Continue = false;
     }
-    
-    
+      
     public void Run(){
         Continue = true;
         Single = false;
@@ -940,6 +923,15 @@ public class ControlPanel extends JFrame{
         execute(PC, Continue, Single);
     }
     
+    /**
+     *
+     * @param information
+     */
+    public void printConsole(String information){
+        this.text_console_print.append(information + "\n");
+        
+    }
+     
     private void ShowNumberO(String TextPC, String TextMAR, String TextMBR, String TextIR, int CPU_PC, int CPU_MAR, String CPU_MBR, String CPU_IR, boolean showO){
         int NumPC, NumMAR, NumMBR, NumIR;
         //show PC

@@ -20,7 +20,7 @@ public class CPU {
      */
     private int PC = 0;     //program counter
     private int cc=0; //condition code
-    private String IR = ""; //Instruction Register, store string format of the binary number
+    private int IR = 0; //Instruction Register, store string format of the binary number
     private int MAR = 0;    //Memory Address Register
     private String MBR = "";//Memory Buffer Register
     private String MSR = "0";//Machine Status Register
@@ -62,7 +62,7 @@ public class CPU {
         this.MFR = MFRin;
     }
     
-    public void setIR(String IRin){
+    public void setIR(int IRin){
         this.IR = IRin;
     }
     
@@ -82,15 +82,14 @@ public class CPU {
         return Integer.parseInt(MBR);
     }
     
-    public String getIR(){
+    public int getIR(){
         return this.IR;
     }
     
     public int getMFR(){
         return this.MFR;
     }
-    
-    
+        
     String exp="0000000";
     String man="00000000";
     String output=null;

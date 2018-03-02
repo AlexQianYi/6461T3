@@ -22,7 +22,8 @@ import memory.MCU;
 import cpu.CPU;
 import util.Const;
 import util.Program1;
-
+import instruction.*;
+import util.MachineFaultException;
 
 public class ControlPanel extends JFrame{
    
@@ -880,7 +881,7 @@ public class ControlPanel extends JFrame{
         String opCode = instruction.substring(0,6);
         try{
             if (instruction.OPCODE.containsKey(opCode)){
-                AbstractInstruction instuct = (AbstractInstruction) Class;
+                Abstractinstruction instuct = (Abstractinstruction) Class;
                 .fromName("alu.instruction." + instruction.OPCONDE.get(opCode)).newInstance();
                 instruct.execute(instructoin, reg, mcu);
                 System.out.println("PC: "+reg.getPC()+", instruction: "+instruction);

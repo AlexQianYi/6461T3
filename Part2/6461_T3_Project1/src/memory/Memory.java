@@ -32,7 +32,7 @@ public class Memory {
     public void expandMemorySize(){
         if(this.memory!=null && this.memory.size()>0){
             this.memory.ensureCapacity(Const.Memory_Expand_Bound);
-            for (int currentSize = memory.size(); currentSize<Const.Memory_Expand_Bound;CurrentSize++){
+            for (int currentSize = memory.size(); currentSize<Const.Memory_Expand_Bound; currentSize++){
                 this.memory.add(0);
             }
         }

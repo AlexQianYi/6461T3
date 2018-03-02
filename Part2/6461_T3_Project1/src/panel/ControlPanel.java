@@ -401,6 +401,9 @@ public class ControlPanel extends JFrame{
             this.panel_Mfr.add(this.Cc[i]);         
         
         this.panel_deposit.add(this.button_deposit);
+        /**
+         * deposit number in Regs
+         */
         this.button_deposit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -927,26 +930,31 @@ public class ControlPanel extends JFrame{
     }
     
     private void SearchINAddress(String keyIN){
-        if(keyIN==""){
-            this.text_Val.setText("");
-        }
-        else{
-            int key = Integer.parseInt(keyIN);
-            String result, result2;
-            result = mainMemory.getValue(key);
-            result2 = String.valueOf(Integer.parseInt(result, 2));
-            this.text_Val.setText(result2);
-        }
+        int address = Integer.parseInt(keyIN);
+        if (address > mcu.getCurrentMemorySize() - 1 || address < 0) {
+            JOptionPane.showMessageDialog(null,
+            "Memory between 0 and " + (mcu.getCurrentMemorySize() - 1) + "!");
+            } else {
+                int value = mcu.fetchFromMemory(address);
+                text_Val.setText(String.valueOf(value));
+            }
     }
     
     private void DepositINAddress(String keyIN, String AddIN){       
-        int key = Integer.parseInt(keyIN);
-        int Add = Integer.parseInt(AddIN);
-        String Address = Integer.toBinaryString(Add);
-        System.out.println(Add);
-        mainMemory.setValue(key, Address);
-        ConsoleString = ConsoleString + "\r\nDeposit " + AddIN + " to " + keyIN;
-        this.text_console.setText(ConsoleString);
+        
+        int address = Integer.parseInt(keyIN);
+        int value = Integer.parseInt(AddIN);
+        if (address > mcu.getCurrentMemorySize() - 1 || address < 0) {
+            JOptionPane.showMessageDialog(null,
+                "Memory between 0 and " + (mcu.getCurrentMemorySize() - 1) + "!");
+        } else if (value > 0xffff || value < 0) {
+                JOptionPane.showMessageDialog(null, "Value between 0 and 65535!");
+        } else {
+            mcu.storeInMemory(address, value);
+            text_Address.setText("0");
+            text_Val.setText("");
+        printConsole("store memory address " + address + " with value " + value);
+        }
     }
     
     private void ShowNumberO(String TextPC, String TextMAR, String TextMBR, String TextIR, int CPU_PC, int CPU_MAR, String CPU_MBR, int CPU_IR, boolean showO){

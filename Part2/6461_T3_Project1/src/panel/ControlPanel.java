@@ -23,7 +23,9 @@ import cpu.CPU;
 import util.Const;
 import util.Program1;
 import instruction.*;
+import memory.Cache;
 import util.MachineFaultException;
+import util.StringUtil;
 
 public class ControlPanel extends JFrame{
    
@@ -80,10 +82,10 @@ public class ControlPanel extends JFrame{
         this.panel_left=new JPanel(new BorderLayout());
         this.panel_leftbot=new JPanel(new GridLayout(3,1));
         
-        
-        
-        
-        //PC
+       
+        /**
+         * PC ===============================================
+         */
         this.panel_Pc=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Pc=new JLabel[20];
         this.label_Pc=new JLabel("PC");
@@ -109,16 +111,16 @@ public class ControlPanel extends JFrame{
         this.panel_register.add(this.panel_Pc);
 
 
-
-        //Register 0 panel
+        /**
+         * R0 =======================================================
+         */
         this.Registerset0=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Register0=new JLabel[20];
         this.label_R0=new JLabel("R0");
         this.label_R0.setPreferredSize(new Dimension(30,10));
         this.label_R0_value=new JLabel("val");
         this.text_R0=new JTextField();
-        this.text_R0.setPreferredSize(new Dimension(80,30));
-        //this.button_R0=new JButton("deposit");       
+        this.text_R0.setPreferredSize(new Dimension(80,30));       
         this.Registerset0.add(this.label_R0);
         for(int i=0; i<16;i++)
         {
@@ -135,9 +137,9 @@ public class ControlPanel extends JFrame{
 
 
 
-
-
-        // register1 panel
+        /**
+         * R1 =======================================================
+         */
         this.Registerset1=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Register1=new JLabel[20];
         this.label_R1=new JLabel("R1");
@@ -160,8 +162,9 @@ public class ControlPanel extends JFrame{
         this.panel_register.add(this.Registerset1);
 
 
-        //register2 panel
-         
+         /**
+          * R2 ========================================================
+          */
         this.Registerset2=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Register2=new JLabel[20];
         this.label_R2=new JLabel("R2");
@@ -183,7 +186,9 @@ public class ControlPanel extends JFrame{
         this.Registerset2.add(this.text_R2);        
         this.panel_register.add(this.Registerset2);
 
-        //register3 panel
+         /**
+          * R3 ========================================================
+          */
         this.Registerset3=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Register3=new JLabel[20];
         this.label_R3=new JLabel("R3");
@@ -205,7 +210,9 @@ public class ControlPanel extends JFrame{
         this.Registerset3.add(this.text_R3);       
         this.panel_register.add(this.Registerset3);
 
-        //index register 1 panel
+         /**
+          * X1 ========================================================
+          */
         this.Index_Reg1_set=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Index_Reg1=new JLabel[16];
         this.label_IX_R1=new JLabel("X1");
@@ -228,8 +235,9 @@ public class ControlPanel extends JFrame{
         this.panel_register.add(this.Index_Reg1_set);
 
 
-        //index register 2 panel
-
+         /**
+          * X2 ========================================================
+          */
         this.Index_Reg2_set=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Index_Reg2=new JLabel[16];
         this.label_IX_R2=new JLabel("X2");
@@ -251,7 +259,9 @@ public class ControlPanel extends JFrame{
         this.Index_Reg2_set.add(this.text_IX_R2);        
         this.panel_register.add(this.Index_Reg2_set);
 
-        //index register 3 panel
+         /**
+          * X3 ========================================================
+          */
         this.Index_Reg3_set=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Index_Reg3=new JLabel[16];
         this.label_IX_R3=new JLabel("X3");
@@ -273,9 +283,10 @@ public class ControlPanel extends JFrame{
         this.Index_Reg3_set.add(this.text_IX_R3);        
         this.panel_register.add(this.Index_Reg3_set);
 
-
-        //MAR panel
-
+        
+         /**
+          * MAR ========================================================
+          */
         this.Mar_set=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Mar=new JLabel[20];
         this.label_Mar=new JLabel("MAR");
@@ -299,8 +310,9 @@ public class ControlPanel extends JFrame{
 
 
 
-        //MBR panel
-
+         /**
+          * MBR ========================================================
+          */
         this.Mbr_set=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Mbr=new JLabel[20];
         this.label_Mbr=new JLabel("MBR");
@@ -324,8 +336,9 @@ public class ControlPanel extends JFrame{
 
         
         
-
-        //IR panel
+         /**
+          * IR ========================================================
+          */
         this.panel_Ir=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.Ir=new JLabel[20];
         this.label_Ir=new JLabel("IR");
@@ -348,8 +361,9 @@ public class ControlPanel extends JFrame{
         this.panel_register.add(this.panel_Ir);
 
 
-        //MFR CC  run and halt button  panel
-
+         /**
+          * MFR CC ========================================================
+          */
         this.panel_Mfr=new JPanel(new FlowLayout(FlowLayout.LEFT,30,10));
         this.panel_deposit=new JPanel(new FlowLayout(FlowLayout.RIGHT,30,10));
         this.panel_mfranddeposit=new JPanel(new BorderLayout());
@@ -404,8 +418,8 @@ public class ControlPanel extends JFrame{
                 
                 System.out.println(getTextPC);
                 System.out.println(getTextR0);
-                ShowNumberR(getTextR0, getTextR1, getTextR2, getTextR3, cpu.getR0(), cpu.getR1(), cpu.getR2(), cpu.getR3(), false);
-                ShowNumberX(getTextX1, getTextX2, getTextX3, cpu.getX1(), cpu.getX2(), cpu.getX3(), false);
+                ShowNumberR(getTextR0, getTextR1, getTextR2, getTextR3, cpu.getRnByNum(0), cpu.getRnByNum(1), cpu.getRnByNum(2), cpu.getRnByNum(3), false);
+                ShowNumberX(getTextX1, getTextX2, getTextX3, cpu.getXnByNum(0), cpu.getXnByNum(1), cpu.getXnByNum(2), false);
                 ShowNumberO(getTextPC, getTextMAR, getTextMBR, getTextIR, cpu.getPC(), cpu.getMAR(), cpu.getMBR(), cpu.getIR(), false);
                 Continue = false;
             }
@@ -490,7 +504,9 @@ public class ControlPanel extends JFrame{
         this.panel_leftbot.add(this.panel_memory);
 
         
-                // read 20 numbers
+         /**
+          * Read 20 numbers ========================================================
+          */
         this.button_read20number.addActionListener(new java.awt.event.ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -509,9 +525,9 @@ public class ControlPanel extends JFrame{
                             cpu.setMAR(cpu.getPC());
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                             cpu.setIR(cpu.getIntMBR());
-                            runInstruction(cpu.getBinaryStringOfInstruct(), cpu, mcu);
+                            runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                         }while(cpu.getPC() <= Const.PG1_END_1 && cpu.getPC() >= Const.PG1_BASE_1);
-                        refreshRegitersPanel();
+                        refreshPanel();
                         program1Step = 1;
                         printConsole("Please enter 1 number (end with ',') and press compare button");
                     }
@@ -532,7 +548,7 @@ public class ControlPanel extends JFrame{
                         cpu.setMAR(cpu.getPC());
                         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                         cpu.setIR(cpu.getIntMBR());
-                        runInstruction(cpu.getBinaryStringOfInstruct(), cpu, mcu);
+                        runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                     }while (cpu.getPC() <= Const.PG1_END_1 && cpu.getPC() >= Const.PG1_BASE_1);
                     
                     System.out.println("start comparing...");
@@ -544,7 +560,7 @@ public class ControlPanel extends JFrame{
                         cpu.setMAR(cpu.getPC());
                         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                         cpu.setIR(cpu.getIntMBR());
-                        runInstruction(cpu.getBinaryStrignOfInstruct(), cpu, mcu);
+                        runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                     }while(cpu.getPC() <= Const.PG1_END_2 && cpu.getPC() >= Const.PG1_BASE_2);
                     
                     System.out.println("print the result in address 30");
@@ -554,11 +570,11 @@ public class ControlPanel extends JFrame{
                         cpu.setMAR(cpu.getPC());
                         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                         cpu.setIR(cpu.getIntMBR());
-                        runInstruction(cpu.getBinaryStingOfInstruct(), cpu, mcu);
+                        runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                         
                     } while(cpu.getPC() <= Const.PG1_END_3 && cpu.getPC() >= Const.PG1_BASE_3);
                     
-                    refreshRegisterPanel();
+                    refreshPanel();
                     program1Step = 0;
                         
                     
@@ -617,15 +633,17 @@ public class ControlPanel extends JFrame{
             }
         });
 
-        this.button_IPL.addActionListener(new java.awt.event.ActionListener() {
-        	
-        	//enable all button
-        	
-        	
+        this.button_IPL.addActionListener(new java.awt.event.ActionListener() {       	
+            //enable all button      	
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("IPL");
-                initial();
+                initialCPU();
+                cpu.setPC(Const.PC_BASE);
+                //mcu.loadProgram(Const.BASE_PROGRAM);
+                program1Step = 0;
+                enableButton();
+                initialReg();
+                printConsole("IPL finish!");
                 
             }
         });
@@ -699,17 +717,13 @@ public class ControlPanel extends JFrame{
       //
         
         
-     
         // console text panel combine
         this.panel_consoletext=new JPanel(new BorderLayout(10,10));
         this.panel_consoletext.add(this.panel_console_print,BorderLayout.NORTH);   
         this.panel_consoletext.add(this.panel_console_keyboard,BorderLayout.CENTER);  
         this.panel_consoletext.add(this.panel_console_cache,BorderLayout.SOUTH);  
-        
-       
-        
-        
-        
+               
+            
         
         this.button_console.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -754,11 +768,9 @@ public class ControlPanel extends JFrame{
     {
         initComponents();
     }
+   
     
-    public void initCPU(){
-        this.cpu = new CPU();
-        this.mcu = new MCU();
-    }
+    /*
     
     public void execute(int memoryLocation, boolean Continue, boolean Single) {
         if(Continue){
@@ -829,66 +841,23 @@ public class ControlPanel extends JFrame{
             PC = cpu.getPC();
         }
     }
+    */
+   
     
-    private void initial(){
-        cpu = new CPU();
-        mainMemory = new Memory();
-        
-        cpu.setPC(6);
-        
-        //put the instructions and required data into main memory
-        cpu.setIndexRegister(2, 1000);//initialize index register
-        cpu.setIndexRegister(1, 700);
-        cpu.setIndexRegister(0, 500);
-        cpu.setGeneralRegister(0, "0");
-        cpu.setGeneralRegister(1, "0");
-        cpu.setGeneralRegister(2, "0");
-        cpu.setGeneralRegister(3, "0");
-        cpu.setMBR("0");
-        cpu.setIR("0");
-        /*
-        mainMemory.setValue(6, "0000011100011111");//store instruction LDR 3,0,31
-        mainMemory.setValue(31, "1110011001101101");//store the required data to location 31
-        mainMemory.setValue(7, "0000101101010101");//store instruction STR 3,0,21
-        mainMemory.setValue(8, "0000111001010001");//store instruction LDA 2,0,17
-        mainMemory.setValue(9, "1010010010001100");//store instruction LDX 2,12
-        mainMemory.setValue(712, "0000001110011001");//store the required data to location 712
-        mainMemory.setValue(10, "1010100001011001");//store instruction STX, 1, 25
-        */
-        ConsoleString = ConsoleString + "\r\nstart working, load instruction succeed!";
-        this.text_console.setText(ConsoleString);
+    private void enableButton(){
+        this.button_execute.setEnabled(true);
+        this.button_compare.setEnabled(true);
+        this.button_read20number.setEnabled(true);
+        this.button_load.setEnabled(true);
+        this.button_find.setEnabled(true);
+        this.button_enter.setEnabled(true);
+        this.button_run.setEnabled(true);
+        this.button_halt.setEnabled(true);
+        this.button_deposit.setEnabled(true);
+        this.button_singlestep.setEnabled(true);
+        this. button_console.setEnabled(true);
+        this. button_memory.setEnabled(true);
     }
-    
-    private void executeInstruction(String instruction, CPU cpu, MCU mcu){
-        
-        //execute event
-        String opCode = instruction.substring(0,6);
-        try{
-            if (instruction.OPCODE.containsKey(opCode)){
-                Abstractinstruction instuct = (Abstractinstruction) Class;
-                .fromName("alu.instruction." + instruction.OPCONDE.get(opCode)).newInstance();
-                instruct.execute(instructoin, cpu, mcu);
-                System.out.println("PC: "+cpu.getPC()+", instruction: "+instruction);
-                refreshCacheTable();
-                pushConsoleBuffer();
-                
-                String message = instrcut.getExecuteMessage();
-                System.out.println(message);
-            }else{
-                throw new MachineFaultException(Const.FaultCode.ILL_OPRC.getValue(),
-                                                Const.FaultCode.ILL_OPRC.getMessage());
-            }
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MachineFaultException t) {
-            // handle the machine fault
-            
-            t.printStackTrace();
-            handleMachineFault(t.getFaultCode(), t.getMessage());
-        }
-    }
-    
     
     /* Launch the application */
     public static void main(String[] args) {      
@@ -923,26 +892,73 @@ public class ControlPanel extends JFrame{
         execute(PC, Continue, Single);
     }
     
-    /**
-     *
-     * @param information
-     */
-    public void printConsole(String information){
-        this.text_console_print.append(information + "\n");
-        
+    public void refreshPanel(){
+        for (Component com : pnlRegisters.getComponents()) {
+            if (com instanceof JPanel) {
+                JPanel pnl = (JPanel) com;
+                int regVal = 0;
+                int bitLong = 0;
+                String bitString = "";
+                int i = 0;
+                for (Component comm : pnl.getComponents()) {
+                    if (comm instanceof JLabel) {
+                        JLabel lbl = (JLabel) comm;
+                        regVal = cpu.getRegByName(lbl.getText());
+                        bitLong = cpu.getBitLengthByName(lbl.getText());
+                        bitString = StringUtil.decimalToBinary(regVal, bitLong);
+                        i = bitLong;
+                    }
+                    if (comm instanceof JRadioButton) {
+                        JRadioButton rdb = (JRadioButton) comm;
+                        if (bitString.charAt(bitLong - i) == '1') {
+                            rdb.setSelected(true);
+                        } else {
+                            rdb.setSelected(false);
+                        }
+                        i--;
+                    }
+                    if (comm instanceof JTextField) {
+                        JTextField txt = (JTextField) comm;
+                        txt.setText(String.valueOf(regVal));
+                    }
+                }
+            }
+        }        
     }
-     
-    private void ShowNumberO(String TextPC, String TextMAR, String TextMBR, String TextIR, int CPU_PC, int CPU_MAR, String CPU_MBR, String CPU_IR, boolean showO){
+    
+    private void SearchINAddress(String keyIN){
+        if(keyIN==""){
+            this.text_Val.setText("");
+        }
+        else{
+            int key = Integer.parseInt(keyIN);
+            String result, result2;
+            result = mainMemory.getValue(key);
+            result2 = String.valueOf(Integer.parseInt(result, 2));
+            this.text_Val.setText(result2);
+        }
+    }
+    
+    private void DepositINAddress(String keyIN, String AddIN){       
+        int key = Integer.parseInt(keyIN);
+        int Add = Integer.parseInt(AddIN);
+        String Address = Integer.toBinaryString(Add);
+        System.out.println(Add);
+        mainMemory.setValue(key, Address);
+        ConsoleString = ConsoleString + "\r\nDeposit " + AddIN + " to " + keyIN;
+        this.text_console.setText(ConsoleString);
+    }
+    
+    private void ShowNumberO(String TextPC, String TextMAR, String TextMBR, String TextIR, int CPU_PC, int CPU_MAR, String CPU_MBR, int CPU_IR, boolean showO){
         int NumPC, NumMAR, NumMBR, NumIR;
         //show PC
-        System.out.println("A");
         if(!(TextPC.equals(""))){
             NumPC = Integer.parseInt(TextPC);
             if(NumPC>0 && NumPC<4096){
                 NumPC = NumPC;
                 cpu.setPC(NumPC);                
                 ConsoleString = ConsoleString + "\r\nchange PC to "+TextPC;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
                 NumPC = CPU_PC;
@@ -970,7 +986,7 @@ public class ControlPanel extends JFrame{
                 NumMAR = NumMAR;
                 cpu.setMAR(NumMAR);
                 ConsoleString = ConsoleString + "\r\nchange MAR to "+TextMAR;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
                 NumMAR = CPU_MAR;
@@ -997,7 +1013,7 @@ public class ControlPanel extends JFrame{
                 NumMBR = NumMBR;
                 cpu.setMBR(TextMBR);
                 ConsoleString = ConsoleString + "\r\nchange MBR to "+TextMBR;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
                 NumMBR = Integer.parseInt(CPU_MBR);
@@ -1022,16 +1038,16 @@ public class ControlPanel extends JFrame{
             NumIR = Integer.parseInt(TextIR);
             if(NumIR>0 && NumIR<65536){
                 NumIR = NumIR;
-                cpu.setIR(TextIR);
+                cpu.setIR(Integer.parseInt(TextIR));
                 ConsoleString = ConsoleString + "\r\nchange IR to "+TextIR;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
-                NumIR = Integer.parseInt(CPU_IR);
+                NumIR = CPU_IR;
             }
         }
         else{
-            NumIR = Integer.parseInt(CPU_IR);
+            NumIR = CPU_IR;
         }
         for(int i=15; i>=0; i--){
             if(NumIR%2==1){
@@ -1046,23 +1062,23 @@ public class ControlPanel extends JFrame{
 
     }
     
-    private void ShowNumberR(String TextR0, String TextR1, String TextR2, String TextR3, String CPU_R0, String CPU_R1, String CPU_R2, String CPU_R3, boolean showR){
+    private void ShowNumberR(String TextR0, String TextR1, String TextR2, String TextR3, int CPU_R0, int CPU_R1, int CPU_R2, int CPU_R3, boolean showR){
         int NumR0, NumR1, NumR2, NumR3;
         //show R0
         if(!(TextR0.equals(""))){
             NumR0 = Integer.parseInt(TextR0);
             if(NumR0>0 && NumR0<65536){
                 NumR0 = NumR0;
-                cpu.setGeneralRegister(0, TextR0);
+                cpu.setRnByNum(0, Integer.parseInt(TextR0));
                 ConsoleString = ConsoleString + "\r\nchange R0 to "+TextR0;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
-                NumR0 = Integer.parseInt(CPU_R0);
+                NumR0 = CPU_R0;
             }
         }
         else{
-            NumR0 = Integer.parseInt(CPU_R0);
+            NumR0 = CPU_R0;
         }
         for(int i=15; i>=0; i--){
             if(NumR0%2==1){
@@ -1080,16 +1096,16 @@ public class ControlPanel extends JFrame{
             NumR1 = Integer.parseInt(TextR1);
             if(NumR1>0 && NumR1<65536){
                 NumR1 = NumR1;
-                cpu.setGeneralRegister(1, TextR1);
+                cpu.setRnByNum(1, Integer.parseInt(TextR1));
                 ConsoleString = ConsoleString + "\r\nchange R1 to "+TextR1;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
-                NumR1 = Integer.parseInt(CPU_R1);
+                NumR1 = CPU_R1;
             }
         }
         else{
-            NumR1 = Integer.parseInt(CPU_R1);
+            NumR1 = CPU_R1;
         }
         for(int i=15; i>=0; i--){
             if(NumR1%2==1){
@@ -1107,16 +1123,16 @@ public class ControlPanel extends JFrame{
             NumR2 = Integer.parseInt(TextR2);
             if(NumR2>0 && NumR2<65536){
                 NumR2 = NumR2;
-                cpu.setGeneralRegister(1, TextR1);
+                cpu.setRnByNum(1, Integer.parseInt(TextR2));
                 ConsoleString = ConsoleString + "\r\nchange R2 to "+TextR2;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
-                NumR2 = Integer.parseInt(CPU_R2);
+                NumR2 = CPU_R2;
             }
         }
         else{
-            NumR2 = Integer.parseInt(CPU_R2);
+            NumR2 = CPU_R2;
         }
         for(int i=15; i>=0; i--){
             if(NumR2%2==1){
@@ -1134,16 +1150,16 @@ public class ControlPanel extends JFrame{
             NumR3 = Integer.parseInt(TextR3);
             if(NumR3>0 && NumR3<65536){
                 NumR3 = NumR3;
-                cpu.setGeneralRegister(3, TextR3);
+                cpu.setRnByNum(3, Integer.parseInt(TextR3));
                 ConsoleString = ConsoleString + "\r\nchange R3 to "+TextR3;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
-                NumR3 = Integer.parseInt(CPU_R1);
+                NumR3 = CPU_R1;
             }
         }
         else{
-            NumR3 = Integer.parseInt(CPU_R3);
+            NumR3 = CPU_R3;
         }
         for(int i=15; i>=0; i--){
             if(NumR3%2==1){
@@ -1165,9 +1181,9 @@ public class ControlPanel extends JFrame{
             NumX1 = Integer.parseInt(TextX1);
             if(NumX1>0 && NumX1<65536){
                 NumX1 = NumX1;
-                cpu.setIndexRegister(0, NumX1);
+                cpu.setXnByNum(0, NumX1);
                 ConsoleString = ConsoleString + "\r\nchange X1 to "+TextX1;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
                 NumX1 = CPU_X1;
@@ -1192,9 +1208,9 @@ public class ControlPanel extends JFrame{
             NumX2 = Integer.parseInt(TextX2);
             if(NumX2>0 && NumX2<65536){
                 NumX2 = NumX2;
-                cpu.setIndexRegister(1, NumX2);
+                cpu.setXnByNum(1, NumX2);
                 ConsoleString = ConsoleString + "\r\nchange X2 to "+TextX2;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
                 NumX2 = CPU_X2;
@@ -1219,9 +1235,9 @@ public class ControlPanel extends JFrame{
             NumX3 = Integer.parseInt(TextX3);
             if(NumX3>0 && NumX3<65536){
                 NumX3 = NumX3;
-                cpu.setIndexRegister(2, NumX3);
+                cpu.setXnByNum(2, NumX3);
                 ConsoleString = ConsoleString + "\r\nchange X3 to "+TextX3;
-                this.text_console.setText(ConsoleString);
+                printConsole(ConsoleString);
             }
             else{
                 NumX3 = CPU_X3;
@@ -1243,7 +1259,7 @@ public class ControlPanel extends JFrame{
         
     }
     
-    private void ShowNumberZ(int CPU_MFR, String CPU_CC){
+    private void ShowNumberZ(int CPU_MFR, int CPU_CC){
         int NumMFR, NumCC;
         //show MFR
         NumMFR = CPU_MFR;
@@ -1258,7 +1274,7 @@ public class ControlPanel extends JFrame{
         }
         
         //show CC
-        NumCC = Integer.parseInt(CPU_CC);;
+        NumCC = CPU_CC;;
         for(int i=3; i>=0; i--){
             if(NumCC%2==1){
                 this.Cc[i].setBackground(Color.blue);
@@ -1270,26 +1286,87 @@ public class ControlPanel extends JFrame{
         }
     }
     
-    private void SearchINAddress(String keyIN){
-        if(keyIN==""){
-            this.text_Val.setText("");
+    public void initialCPU(){
+        this.cpu = new CPU();
+        this.mcu = new MCU();
+    }
+    
+    private void initialReg(){
+        //put the instructions and required data into main memory
+        cpu.setXnByNum(2, 1000);//initialize index register
+        cpu.setXnByNum(1, 700);
+        cpu.setXnByNum(0, 500);
+        cpu.setRnByNum(0, 0);
+        cpu.setRnByNum(1, 0);
+        cpu.setRnByNum(2, 0);
+        cpu.setRnByNum(3, 0);
+        cpu.setMBR("0");
+        cpu.setIR(0);
+
+        ConsoleString = ConsoleString + "\r\nstart working, load instruction succeed!";
+        this.printConsole(ConsoleString);
+    }
+    
+    private void runInstruction(String instruction, CPU cpu, MCU mcu) {
+
+        // execute button event
+        String opCode = instruction.substring(0, 6);
+        try {
+            if (Const.OPCODE.containsKey(opCode)) {
+
+                Abstractinstruction instr = (Abstractinstruction) Class
+                        .forName("alu.instruction." + Const.OPCODE.get(opCode)).newInstance();
+                instr.execute(instruction, cpu, mcu);
+                System.out.println("PC: " + cpu.getPC() + ", instruction: " + instruction);
+                // printConsole("instruction: " + instruction);
+                refreshCacheTable();
+                refreshConsoleBuffer();
+
+                String message = instr.getExecuteMessage();
+                System.out.println(message);
+                //
+                // TODO do something with this message
+                //
+
+            } else {
+                // we don't have that kind of instruction
+                throw new MachineFaultException(Const.FaultCode.ILL_OPRC.getValue(),
+                        Const.FaultCode.ILL_OPRC.getMessage());
+            }
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MachineFaultException t) {
+            // handle the machine fault
+
+            t.printStackTrace();
+            //handleMachineFault(t.getFaultCode(), t.getMessage());
         }
-        else{
-            int key = Integer.parseInt(keyIN);
-            String result, result2;
-            result = mainMemory.getValue(key);
-            result2 = String.valueOf(Integer.parseInt(result, 2));
-            this.text_Val.setText(result2);
+    }
+        
+    private void refreshConsoleBuffer() {
+        if (mcu.getPrinterBuffer() != null) {
+            text_console_print.append(mcu.getPrinterBuffer());
+            mcu.setPrinterBuffer("");
+        }
+        if (mcu.getKeyboardBuffer() != null) {
+            text_console_keyboard.setText(mcu.getKeyboardBuffer());
         }
     }
     
-    private void DepositINAddress(String keyIN, String AddIN){       
-        int key = Integer.parseInt(keyIN);
-        int Add = Integer.parseInt(AddIN);
-        String Address = Integer.toBinaryString(Add);
-        System.out.println(Add);
-        mainMemory.setValue(key, Address);
-        ConsoleString = ConsoleString + "\r\nDeposit " + AddIN + " to " + keyIN;
-        this.text_console.setText(ConsoleString);
+    private void refreshCacheTable() {
+        int row = 0;
+        for (Cache.CacheLine line : mcu.getCache().getCacheLines()) {
+            this.text_console_cache.setValueAt(line.getTag(), row, 0);
+            this.text_console_cache.setValueAt(line.getData(), row, 1);
+            row++;
+        }
+
     }
+    
+    public void printConsole(String information){
+        this.text_console_print.append(information + "\n");
+        
+    }
+    
 }

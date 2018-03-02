@@ -27,6 +27,8 @@ public class Const {
     public static final Integer Memory_Bound = 2048;
     public static final Integer Memory_Expand_Bound = 4096;
     
+    public static final Integer PC_BASE=8;
+    
     public enum Fault {
 	ILL_MEM_RSV(0, "Illegal Memory Address to Reserved Locations"), ILL_TRPC(1, "Illegal TRAP code"), ILL_OPRC(2,
 	"Illegal Operation Code"), ILL_MEM_BYD(3, "Illegal Memory Address beyond 2048 (memory installed)");
@@ -113,4 +115,37 @@ public class Const {
 		OPCODE.put("110010", "LDFR");
 		OPCODE.put("110011", "STFR");
 	}
+        
+    public static final HashMap<String, String> BASE_PROGRAM = new HashMap<String, String>();
+    static{
+        
+    }
+    
+    /**
+     * Machine Fault</br>
+     * 0 - ILL_MEM_RSV: Illegal Memory Address to Reserved Locations</br>
+     * 1 - ILL_TRPC: Illegal TRAP code</br>
+     * 2 - ILL_OPRC: Illegal Operation Code</br>
+     * 3 - ILL_MEM_BYD: Illegal Memory Address beyond 2048 (memory installed)
+     */
+    public enum FaultCode {
+        ILL_MEM_RSV(0, "Illegal Memory Address to Reserved Locations"), ILL_TRPC(1, "Illegal TRAP code"), ILL_OPRC(2,
+			"Illegal Operation Code"), ILL_MEM_BYD(3, "Illegal Memory Address beyond 2048 (memory installed)");
+                        
+        int value;
+	String messsage;
+
+        private FaultCode(int value, String message) {
+            this.value = value;
+            this.messsage = message;
+	}
+
+        public int getValue() {
+            return this.value;
+        }
+
+	public String getMessage() {
+            return this.messsage;
+	}
+    }
 }

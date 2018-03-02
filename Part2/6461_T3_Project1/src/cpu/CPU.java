@@ -41,6 +41,13 @@ public class CPU {
 
     
     //inital the value of reg
+    public void setFR0(int num){
+        this.FR0=num;
+    }
+    
+    public void setFR1(int num){
+        this.FR1=num;
+    }
     
     public void setPC(int PCin){
         PC = PCin;
@@ -80,6 +87,85 @@ public class CPU {
     
     public int getIntMBR(){
         return Integer.parseInt(MBR);
+    }
+    
+    public String getBinaryStringOfIR(){
+        if (this.IR <= 0xffff) {
+            return String.format("%16s", Integer.toBinaryString(this.IR)).replace(" ", "0");
+        }
+        return null;       
+    }
+    
+    public int getBitLengthByName(String name){
+        if (name.equals("CC"))
+            return 4;
+        if (name.equals("R0"))
+            return 16;
+        if (name.equals("R1"))
+            return 16;
+        if (name.equals("R2"))
+            return 16;
+        if (name.equals("R3"))
+            return 16;
+        if (name.equals("IR"))
+            return 16;
+        if (name.equals("MAR"))
+            return 16;
+        if (name.equals("MBR"))
+            return 16;
+        if (name.equals("MFR"))
+            return 4;
+        if (name.equals("MSR"))
+            return 16;
+        if (name.equals("PC"))
+            return 12;
+        if (name.equals("X1"))
+            return 16;
+        if (name.equals("X2"))
+            return 16;
+        if (name.equals("X3"))
+            return 16;
+        if (name.equals("FR0"))
+            return 16;
+        if (name.equals("FR1"))
+            return 16;
+        return 0;       
+    }
+    
+    public int getRegByName(String name){
+        if (name.equals("CC"))
+            return this.cc;
+        if (name.equals("R0"))
+            return this.R[0];
+        if (name.equals("R1"))
+            return this.R[1];
+        if (name.equals("R2"))
+            return this.R[2];
+        if (name.equals("R3"))
+            return this.R[3];
+        if (name.equals("IR"))
+            return this.IR;
+        if (name.equals("MAR"))
+            return this.MAR;
+        if (name.equals("MBR"))
+            return Integer.parseInt(this.MBR);
+        if (name.equals("MFR"))
+            return this.MFR;
+        if (name.equals("MSR"))
+            return Integer.parseInt(this.MSR);
+        if (name.equals("PC"))
+            return this.PC;
+        if (name.equals("X1"))
+            return this.X[0];
+        if (name.equals("X2"))
+            return this.X[1];
+        if (name.equals("X3"))
+            return this.X[2];
+        if (name.equals("FR0"))
+            return this.FR0;
+        if (name.equals("FR1"))
+            return this.FR1;
+        return 0;
     }
     
     public int getIR(){

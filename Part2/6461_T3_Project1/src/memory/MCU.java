@@ -33,6 +33,10 @@ public class MCU {
             this.cache = new Cache();
         }
         
+        public Cache getCache(){
+            return cache;
+        }
+        
         public String getKeyboardBuffer() {
             return keyboardBuffer;
 	}
@@ -129,14 +133,4 @@ public class MCU {
 			}
 		}
 	}
-
-    public void loadPorgram(HashMap<String, Integer> program) {
-        if (program != null) {
-            for (Map.Entry<String, Integer> entry : program.entrySet()) {
-                int address = Integer.parseInt(entry.getKey());
-                int value = entry.getValue();
-                storeIntoCache(address, value);
-            }
-        } //To change body of generated methods, choose Tools | Templates.
-    }
 }

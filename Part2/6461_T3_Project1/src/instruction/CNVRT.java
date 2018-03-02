@@ -5,14 +5,18 @@
  */
 package instruction;
 
+import cpu.CPU;
 import memory.MCU;
+import util.Const;
+import util.EffectiveAddress;
+import util.MachineFaultException;
 import util.StringUtil;
 
 /**
  *
  * @author yiqian
  */
-public class CNVRT extends AbstractInstruction {
+public class CNVRT extends Abstractinstruction {
 
 	int r;
 	int ix;
@@ -21,29 +25,29 @@ public class CNVRT extends AbstractInstruction {
 	int F;
 
 	@Override
-	public void execute(String instruction, Registers registers, MCU mcu) throws MachineFaultException {
+	public void execute(String instruction, CPU cpu, MCU mcu) throws MachineFaultException {
 		// TODO Auto-generated method stub
 		r = StringUtil.binaryToDecimal(instruction.substring(6, 8));
 		ix = StringUtil.binaryToDecimal(instruction.substring(9, 11));
 		i = StringUtil.binaryToDecimal(instruction.substring(8, 9));
 		address = StringUtil.binaryToDecimal(instruction.substring(11, 16));
 
-		int effectiveAddress = EffectiveAddress.calculateEA(ix, address, i, mcu, registers);
-		F = registers.getRnByNum(r);
-		registers.setMAR(effectiveAddress);
-		registers.setMBR(mcu.fetchFromCache(registers.getMAR()));
+		int effectiveAddress = EffectiveAddress.computeEffectiveAddress(ix, address, i, mcu, cpu);
+		F = cpu.getRnByNum(r);
+		cpu.setMAR(effectiveAddress);
+		cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
 
 		if (F == 0) {
 
-			registers.setRnByNum(r, Math.round(registers.getMBR()));
+			cpu.setRnByNum(r, Math.round(cpu.getIntMBR()));
 			
 		}
 		if (F == 1) {
 
-			registers.setConvertFRByNum(0, registers.getMBR());
+			cpu.setConvertFRByNum(0, cpu.getIntMBR());
 			
 		}
-		registers.increasePCByOne();
+		cpu.increasePC();
 	}
 
 	@Override

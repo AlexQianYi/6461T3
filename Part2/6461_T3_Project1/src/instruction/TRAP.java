@@ -5,10 +5,12 @@
  */
 package instruction;
 
+import cpu.CPU;
 import memory.MCU;
 import util.Const;
+import util.EffectiveAddress;
+import util.MachineFaultException;
 import util.StringUtil;
-import cpu.CPU;
 
 /**
  *
@@ -18,7 +20,7 @@ public class TRAP extends Abstractinstruction {
     int trapCode;
 
     @Override
-    public void execute(String instruction, CPU cpu, MCU mcu) {
+    public void execute(String instruction, CPU cpu, MCU mcu) throws MachineFaultException {
         // TODO Auto-generated method stub
         // System.out.println("This is a TRAP instruction!");
         trapCode = StringUtil.binaryToDecimal(instruction.substring(12, 16));
@@ -28,15 +30,15 @@ public class TRAP extends Abstractinstruction {
         // store pc+1 into memory 2
         cpu.setMAR(2);
         cpu.setMBR(cpu.getPC() + 1);
-        mcu.storeIntoCache(cpu.getMAR(), cpu.getMBR());
+        mcu.storeIntoCache(cpu.getMAR(), cpu.getIntMBR());
         // goes to the routine whose address is in memory location 0
         cpu.setMAR(0);
         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-        int tableAddress = cpu.getMBR();
+        int tableAddress = cpu.getIntMBR();
 
         cpu.setMAR(trapCode + tableAddress);
         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-        int routine = cpu.getMBR();
+        int routine = cpu.getIntMBR();
         cpu.setPC(routine);
         try {
             do {
@@ -59,7 +61,7 @@ public class TRAP extends Abstractinstruction {
         // return to the instruction
         cpu.setMAR(2);
         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-        cpu.setPC(cpu.getMBR());
+        cpu.setPC(cpu.getIntMBR());
     }
 
     @Override

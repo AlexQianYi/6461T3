@@ -5,7 +5,11 @@
  */
 package instruction;
 
+import cpu.CPU;
 import memory.MCU;
+import util.Const;
+import util.EffectiveAddress;
+import util.MachineFaultException;
 import util.StringUtil;
 
 /**
@@ -20,16 +24,16 @@ public class STFR extends Abstractinstruction {
 	int i;
 
 	@Override
-	public void execute(String instruction, Registers registers, MCU mcu) throws MachineFaultException {
+	public void execute(String instruction, CPU cpu, MCU mcu) throws MachineFaultException {
 		// TODO Auto-generated method stub
 		fr = StringUtil.binaryToDecimal(instruction.substring(6, 8));
 		ix = StringUtil.binaryToDecimal(instruction.substring(9, 11));
 		i = StringUtil.binaryToDecimal(instruction.substring(8, 9));
 		address = StringUtil.binaryToDecimal(instruction.substring(11, 16));
-		int effectiveAddress = EffectiveAddress.calculateEA(ix, address, i, mcu, registers);
+		int effectiveAddress = EffectiveAddress.computeEffectiveAddress(ix, address, i, mcu, cpu);
 
 		
-		int cfr=registers.getFRByNum(fr);
+		int cfr=cpu.getFRByNum(fr);
 		String buffer="0000000000000000";
 		String frs=Integer.toBinaryString(cfr);
 		if(frs.length()<16)
@@ -43,15 +47,15 @@ public class STFR extends Abstractinstruction {
 		
 
 
-		registers.setMAR(effectiveAddress);
-		registers.setMBR(exp);
-		mcu.storeIntoCache(registers.getMAR(), registers.getMBR());
+		cpu.setMAR(effectiveAddress);
+		cpu.setMBR(exp);
+		mcu.storeIntoCache(cpu.getMAR(), cpu.getIntMBR());
 
-		registers.setMAR(effectiveAddress + 1);
-		registers.setMBR(man);
-		mcu.storeIntoCache(registers.getMAR(), registers.getMBR());
+		cpu.setMAR(effectiveAddress + 1);
+		cpu.setMBR(man);
+		mcu.storeIntoCache(cpu.getMAR(), cpu.getIntMBR());
 
-		registers.increasePCByOne();
+		cpu.increasePC();
 	}
 
 	@Override

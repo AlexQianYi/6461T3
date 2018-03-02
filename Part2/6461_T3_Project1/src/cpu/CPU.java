@@ -90,6 +90,97 @@ public class CPU {
         return this.MFR;
     }
     
+    
+    String exp="0000000";
+    String man="00000000";
+    String output=null;
+    public void setConvertFRByNum(int num, int fr) {
+    	String input=null;
+    	
+    	if(num==0){
+    		if(fr>=0){
+    			input = Integer.toBinaryString(fr);
+    			man=input+man.substring(input.length());
+    			String temp=Integer.toBinaryString(input.length());
+    			exp=exp.substring(0, 7-temp.length())+temp;
+    			output="0"+exp+man;
+        	
+    		}else{
+        	fr=-1*fr;
+        	input=Integer.toBinaryString(fr);
+        	
+        	char[] opp=input.toCharArray();
+        	int k;
+        	for(int i=0; i<input.length();i++){
+        		
+        		if (opp[i]=='0'){
+        			opp[i]='1';
+        		}else{
+        			opp[i]='0';
+        		}
+        		
+        	}
+        	for(k=input.length()-1;k>=0;k--){
+        	if(opp[k]=='0'){
+        		opp[k]='1';
+        		break;
+        	}else {
+        		opp[k]='0';
+        		continue;
+        	}
+        	}	
+        	String valid=new String(opp);	
+        	man=valid+man.substring(input.length());
+        	
+        	String temp=Integer.toBinaryString(input.length());
+        	exp=exp.substring(0, 7-temp.length())+temp;
+        	output="1"+exp+man;
+        }
+        	this.FR0 = Integer.parseInt(output,2);
+        }
+        if (num == 1){
+        	if(fr>=0){
+                input = Integer.toBinaryString(fr);
+            	man=input+man.substring(input.length());
+            	String temp=Integer.toBinaryString(input.length());
+            	exp=exp.substring(0, 7-temp.length())+temp;
+            	output="0"+exp+man;
+            	
+            }else{
+            	fr=-1*fr;
+            	input=Integer.toBinaryString(fr);
+            	
+            	char[] opp=input.toCharArray();
+            	int k;
+            	for(int i=0; i<input.length();i++){
+            		
+            		if (opp[i]=='0'){
+            			opp[i]='1';
+            		}else{
+            			opp[i]='0';
+            		}
+            		
+            	}
+            	for(k=input.length()-1;k>=0;k--){
+            	if(opp[k]=='0'){
+            		opp[k]='1';
+            		break;
+            	}else {
+            		opp[k]='0';
+            		continue;
+            	}
+            	}	
+            	String valid=new String(opp);	
+            	man=valid+man.substring(input.length());
+            	
+            	String temp=Integer.toBinaryString(input.length());
+            	exp=exp.substring(0, 7-temp.length())+temp;
+            	output="1"+exp+man;
+            }
+            this.FR1 = Integer.parseInt(output,2);
+        }
+    }
+    
     public int getFRByNum(int num){
         if(num==0){
             return this.FR0;
@@ -97,6 +188,7 @@ public class CPU {
         if(num==1){
             return this.FR1;
         }
+        return 0;
     }
     
     public void setFRByNum(int num, int value){

@@ -5,14 +5,18 @@
  */
 package instruction;
 
+import cpu.CPU;
 import memory.MCU;
+import util.Const;
+import util.EffectiveAddress;
+import util.MachineFaultException;
 import util.StringUtil;
 
 /**
  *
  * @author yiqian
  */
-public class LDFR extends AbstractInstruction{
+public class LDFR extends Abstractinstruction{
 
 	int fr;
 	int ix;
@@ -20,23 +24,23 @@ public class LDFR extends AbstractInstruction{
 	int i;
 
 	@Override
-	public void execute(String instruction, Registers registers, MCU mcu) throws MachineFaultException {
+	public void execute(String instruction, CPU cpu, MCU mcu) throws MachineFaultException {
 		// TODO Auto-generated method stub
 		fr = StringUtil.binaryToDecimal(instruction.substring(6, 8));
 		ix = StringUtil.binaryToDecimal(instruction.substring(9, 11));
 		i = StringUtil.binaryToDecimal(instruction.substring(8, 9));
 		address = StringUtil.binaryToDecimal(instruction.substring(11, 16));
-		int effectiveAddress = EffectiveAddress.calculateEA(ix, address, i, mcu, registers);
+		int effectiveAddress = EffectiveAddress.computeEffectiveAddress(ix, address, i, mcu, cpu);
 		
 		String exp="0000000";
-	    String man="00000000";
+                String man="00000000";
 	    
-		registers.setMAR(effectiveAddress);
-		registers.setMBR(mcu.fetchFromCache(registers.getMAR()));
-		int expI=registers.getMBR();
-		registers.setMAR(effectiveAddress+1);
-		registers.setMBR(mcu.fetchFromCache(registers.getMAR()));
-		int manI=registers.getMBR();
+		cpu.setMAR(effectiveAddress);
+		cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+		int expI=cpu.getIntMBR();
+		cpu.setMAR(effectiveAddress+1);
+		cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+		int manI=cpu.getIntMBR();
 
 		
 
@@ -50,9 +54,9 @@ public class LDFR extends AbstractInstruction{
 		
 		String frs=exp+man;
 		
-		registers.setFRByNum(fr, Integer.parseInt(frs,2));
+		cpu.setFRByNum(fr, Integer.parseInt(frs,2));
 		
-		registers.increasePCByOne();
+		cpu.increasePC();
 	}
 
 	@Override

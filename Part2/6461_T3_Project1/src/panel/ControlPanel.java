@@ -532,7 +532,6 @@ public class ControlPanel extends JFrame{
                             cpu.setMAR(cpu.getPC());
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                             cpu.setIR(cpu.getIntMBR());
-                            System.out.println(cpu.getIR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                         }while(cpu.getPC() <= Const.PG1_END_1 && cpu.getPC() >= Const.PG1_BASE_1);
                         refreshPanel();
@@ -652,7 +651,6 @@ public class ControlPanel extends JFrame{
                 enableButton();
                 initialReg();
                 printConsole("IPL finish!");
-                System.out.println(mcu.getCurrentMemorySize());
                 
             }
         });

@@ -15,7 +15,7 @@ import util.MachineFaultException;
  * @author yiqian
  */
 public class EffectiveAddress {
-    public static int computeEffectiveAddress(int address,int IX, int i, MCU mcu, CPU cpu) throws MachineFaultException{
+    public static int computeEffectiveAddress(int IX, int address, int i, MCU mcu, CPU cpu) throws MachineFaultException{
         //move the operand address from the IR to IAR
         if (i == 0) {
 	// not indirect addressing

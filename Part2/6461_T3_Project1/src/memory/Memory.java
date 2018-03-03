@@ -22,7 +22,7 @@ public class Memory {
     
     ArrayList<Integer> memory;
     
-    public void initMemory(){
+    public void Memory(){
         this.memory = new ArrayList<Integer> (Const.Memory_Bound);
         for (int i=0; i<Const.Memory_Bound; i++){
             this.memory.add(0);

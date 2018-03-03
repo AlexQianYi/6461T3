@@ -3,9 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/yiqian/NetBeansProjects/6461_T3_Project1/src/pkg6461_t3_project1/ControlPanel.java</file>
-            <file>file:/Users/yiqian/NetBeansProjects/6461_T3_Project1/src/pkg6461_t3_project1/CPU.java</file>
-            <file>file:/Users/yiqian/NetBeansProjects/6461_T3_Project1/src/pkg6461_t3_project1/Memory.java</file>
+            <file>file:/Users/yiqian/Documents/GitHub/6461T3/Part2/6461_T3_Project1/src/util/Const.java</file>
+            <file>file:/Users/yiqian/Documents/GitHub/6461T3/Part2/6461_T3_Project1/src/util/EffectiveAddress.java</file>
+            <file>file:/Users/yiqian/Documents/GitHub/6461T3/Part2/6461_T3_Project1/src/panel/ControlPanel.java</file>
+            <file>file:/Users/yiqian/Documents/GitHub/6461T3/Part2/6461_T3_Project1/src/memory/MCU.java</file>
+            <file>file:/Users/yiqian/Documents/GitHub/6461T3/Part2/6461_T3_Project1/src/instruction/SRC.java</file>
+            <file>file:/Users/yiqian/Documents/GitHub/6461T3/Part2/6461_T3_Project1/src/util/Program1.java</file>
+            <file>file:/Users/yiqian/Documents/GitHub/6461T3/Part2/6461_T3_Project1/src/instruction/LDA.java</file>
+            <file>file:/Users/yiqian/Documents/GitHub/6461T3/Part2/6461_T3_Project1/src/util/MachineFaultException.java</file>
+            <file>file:/Users/yiqian/Documents/GitHub/6461T3/Part2/6461_T3_Project1/src/memory/Memory.java</file>
         </group>
     </open-files>
 </project-private>

@@ -566,7 +566,7 @@ public class ControlPanel extends JFrame{
                     System.out.println("read 1 number...");
                     mcu.loadProgram(Program1.PG1_20);
                     cpu.setPC(Const.PG1_BASE_1);
-                    
+                    mcu.setKeyboardBuffer(text_console_keyboard.getText());
                     do{
                         cpu.setMAR(cpu.getPC());
                         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));

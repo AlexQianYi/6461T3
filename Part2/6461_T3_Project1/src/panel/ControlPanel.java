@@ -512,12 +512,6 @@ public class ControlPanel extends JFrame{
         this.panel_memory.setPreferredSize(new Dimension(30, 1500));
         this.panel_leftbot.add(this.panel_memory);
 
-        this.label_console_keyboard.addKeyListener(new java.awt.event.KeyAdapter() { // TODO
-            @Override
-            public void keyReleased(KeyEvent e) {
-                mcu.setKeyboardBuffer(label_console_keyboard.getText());
-            }
-        });
         
          /**
           * Read 20 numbers ========================================================
@@ -528,6 +522,7 @@ public class ControlPanel extends JFrame{
                 if(program1Step==0){
                     // read 20 number from console
                     System.out.println("Start reading numbers...");
+                    mcu.setKeyboardBuffer(label_console_keyboard.getText());
                     if (label_console_keyboard.getText()==null || label_console_keyboard.getText().length()==0){
                         JOptionPane.showMessageDialog(null, "type 20 numbers in the console keyboard");
                     }else{

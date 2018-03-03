@@ -513,6 +513,14 @@ public class ControlPanel extends JFrame{
         this.panel_leftbot.add(this.panel_memory);
 
         
+       label_console_keyboard.addKeyListener(new KeyAdapter() {   //创建机制
+            public void keyReleased(KeyEvent e) {        //重载函数，释放按键触发
+                JTextField textField = (JTextField) e.getSource();  //得到最初发生event的组件对象,既是文本框对象
+                String text = textField.getText();
+                textField.setText(text.toUpperCase());      //将所有的小写字母转换成大写字母
+                    }  
+                });
+        
          /**
           * Read 20 numbers ========================================================
           */

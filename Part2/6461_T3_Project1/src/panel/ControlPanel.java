@@ -537,6 +537,7 @@ public class ControlPanel extends JFrame{
                             cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                             for(int i=7; i<27;i++){
+                                System.out.print(mcu.getKeyboardBuffer().charAt(0)+" ");
                                 System.out.print(mcu.fetchFromMemory(7)+" ");
                                 System.out.print(mcu.fetchFromMemory(9)+" ");
                                 System.out.print(mcu.fetchFromMemory(11)+" ");

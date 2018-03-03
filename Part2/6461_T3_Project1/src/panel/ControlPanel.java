@@ -595,7 +595,7 @@ public class ControlPanel extends JFrame{
                         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                         cpu.setIR(cpu.getIntMBR());
                         runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
-                        
+                        System.out.println(mcu.fetchFromMemory(30)+" ");
                     } while(cpu.getPC() <= Const.PG1_END_3 && cpu.getPC() >= Const.PG1_BASE_3);
                     
                     refreshPanel();

@@ -20,7 +20,7 @@ public class Const {
     public static final Integer PG1_BASE_1 = 300;
     public static final Integer PG1_END_1 = 370;
     public static final Integer PG1_BASE_2 = 500;
-    public static final Integer PG1_END_2 = 370;
+    public static final Integer PG1_END_2 = 871;
     public static final Integer PG1_BASE_3 = 1800;
     public static final Integer PG1_END_3= 1862;
     

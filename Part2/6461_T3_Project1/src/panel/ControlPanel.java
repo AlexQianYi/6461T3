@@ -584,6 +584,7 @@ public class ControlPanel extends JFrame{
                         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                         cpu.setIR(cpu.getIntMBR());
                         runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
+                        System.out.println(mcu.fetchFromMemory(27)+" ");
                     }while(cpu.getPC() <= Const.PG1_END_2 && cpu.getPC() >= Const.PG1_BASE_2);
                     
                     System.out.println("print the result in address 30");

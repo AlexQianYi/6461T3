@@ -39,6 +39,10 @@ public class Memory {
         System.out.println("Memory size has been expanded to "+ memory.size());
     }
     
+    public void add(int num){
+        this.memory.add(num);
+    }
+    
     public int getCurrentMemorySize(){
         if(this.memory != null){
             return this.memory.size();

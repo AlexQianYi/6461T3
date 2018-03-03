@@ -5,12 +5,14 @@
  */
 package memory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import memory.Memory;
 
 import memory.Cache.CacheLine;
+import util.Const;
 
 /**
  *
@@ -18,7 +20,7 @@ import memory.Cache.CacheLine;
  */
 public class MCU {
     
-        Memory memory;
+        ArrayList<Integer> memory;
     	Cache cache;
 
 	String printerBuffer;
@@ -29,8 +31,11 @@ public class MCU {
          * inital MCU
          */
         public MCU(){
-            this.memory = new Memory();
             this.cache = new Cache();
+            this.memory = new ArrayList<Integer>(Const.Memory_Bound);
+		for (int i = 0; i < Const.Memory_Bound; i++) {
+			this.memory.add(0);
+		}
         }
         
         public Cache getCache(){
@@ -61,21 +66,32 @@ public class MCU {
             this.printerBuffer = printerBuffer;
 	}
         
-        public void expandMemorySize(){
-            this.memory.expandMemorySize();
+    public void expandMemorySize(){
+        if(this.memory!=null && this.memory.size()>0){
+            this.memory.ensureCapacity(Const.Memory_Expand_Bound);
+            for (int currentSize = memory.size(); currentSize<Const.Memory_Expand_Bound; currentSize++){
+                this.memory.add(0);
+            }
         }
+        System.out.println("Memory size has been expanded to "+ memory.size());
+    }
         
-        public int getCurrentMemorySize(){
-            return this.memory.getCurrentMemorySize();
+    public int getCurrentMemorySize(){
+        if(this.memory != null){
+            return this.memory.size();
         }
+        return 0;
+    }
         
-        public int fetchFromMemory(int address){
-            return this.memory.fetchFromMemory(address);
+    public void storeInMemory(int address, int value){
+        if(this.memory!=null){
+            this.memory.set(address, value);
         }
-        
-        public void storeInMemory(int address, int value){
-            this.memory.storeInMemory(address, value);
-        }
+    }
+    
+    public int fetchFromMemory(int address){
+        return this.memory.get(address);
+    }
         /**
 	 * 
 	 * fetch a word from cache. If the word is not in cache, fetch it from

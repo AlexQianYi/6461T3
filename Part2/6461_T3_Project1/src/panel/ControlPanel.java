@@ -1334,7 +1334,7 @@ public class ControlPanel extends JFrame{
     }
     
     public void printConsole(String information){
-        this.text_console_print.append(information + " ");
+        this.text_console_print.append(information + "\n");
         
     }
     

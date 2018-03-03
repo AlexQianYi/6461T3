@@ -513,7 +513,7 @@ public class ControlPanel extends JFrame{
         this.panel_leftbot.add(this.panel_memory);
 
         
-       label_console_keyboard.addKeyListener(new KeyAdapter() {   //创建机制
+       text_console_keyboard.addKeyListener(new KeyAdapter() {   //创建机制
             public void keyReleased(KeyEvent e) {        //重载函数，释放按键触发
                 JTextField textField = (JTextField) e.getSource();  //得到最初发生event的组件对象,既是文本框对象
                 String text = textField.getText();
@@ -531,7 +531,7 @@ public class ControlPanel extends JFrame{
                     // read 20 number from console
                     System.out.println("Start reading numbers...");
                     mcu.setKeyboardBuffer(label_console_keyboard.getText());
-                    if (label_console_keyboard.getText()==null || label_console_keyboard.getText().length()==0){
+                    if (text_console_keyboard.getText()==null || text_console_keyboard.getText().length()==0){
                         JOptionPane.showMessageDialog(null, "type 20 numbers in the console keyboard");
                     }else{
                         printConsole("Below are the 20 numbers: ");
@@ -695,6 +695,7 @@ public class ControlPanel extends JFrame{
         this.text_console_keyboard.setPreferredSize(new Dimension(400, 270));
         this.text_console_keyboard.setLineWrap(true);
         this.label_console_keyboard=new JLabel("Console Keyboard");
+        
         this.panel_console_keyboard.add(label_console_keyboard,BorderLayout.NORTH);
         this.panel_console_keyboard.add(text_console_keyboard,BorderLayout.CENTER);
         

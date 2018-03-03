@@ -321,7 +321,7 @@ public class CPU {
         if (num == 2)
             return this.R[2];
         if (num == 3)
-            return this.X[3];
+            return this.R[3];
         return 0;    
     }
     

@@ -31,6 +31,8 @@ public class ControlPanel extends JFrame{
    
    private JFrame frame;
    
+   private JPanel Global;
+   
    private JPanel panel_console_print,panel_console_keyboard, panel_console_cache,panel_leftbot,panel_register,panel_instruction, panel_memory,panel_mfranddeposit,panel_deposit,panel_control,panel_consoletext,panel_clearbutton,panel_left,panel_Pc,panel_Mfr,panel_Ir,panel_lastline,panel_console,Registerset0,Registerset1,Registerset2,Registerset3,Index_Reg1_set,Index_Reg2_set,Index_Reg3_set,Mar_set,Mbr_set;
    
    private JLabel[] Pc,Cc,Mfr,Ir,Register1,Register2,Register3,Register0,Index_Reg1,Index_Reg2,Index_Reg3,Mar,Mbr;
@@ -67,6 +69,10 @@ public class ControlPanel extends JFrame{
    private int PC;
 
    private int devid = 0;
+   
+   // Save situation when halt
+   int tempPC;
+   String tempIR;
 
         
 
@@ -419,8 +425,6 @@ public class ControlPanel extends JFrame{
                 getTextMBR = text_Mbr.getText();
                 getTextIR = text_Ir.getText();
                 
-                System.out.println(getTextPC);
-                System.out.println(getTextR0);
                 ShowNumberR(getTextR0, getTextR1, getTextR2, getTextR3, cpu.getRnByNum(0), cpu.getRnByNum(1), cpu.getRnByNum(2), cpu.getRnByNum(3), false);
                 ShowNumberX(getTextX1, getTextX2, getTextX3, cpu.getXnByNum(0), cpu.getXnByNum(1), cpu.getXnByNum(2), false);
                 ShowNumberO(getTextPC, getTextMAR, getTextMBR, getTextIR, cpu.getPC(), cpu.getMAR(), cpu.getMBR(), cpu.getIR(), false);
@@ -624,7 +628,7 @@ public class ControlPanel extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Run");
-                Run(6);
+                Run();
             }
         });
         
@@ -761,10 +765,14 @@ public class ControlPanel extends JFrame{
         
         
         //Frame add
-        this.frame.add(panel_console,BorderLayout.EAST);
-        this.frame.add(panel_left,BorderLayout.CENTER);
+        this.Global = new JPanel(new BorderLayout(10,10));
+        this.Global.add(this.panel_console, BorderLayout.EAST);
+        this.Global.add(this.panel_left, BorderLayout.CENTER);
+        this.frame.add(Global);
         this.frame.setVisible(true);
         this.frame.pack();
+        
+        
     } 
     
     public ControlPanel()
@@ -772,81 +780,7 @@ public class ControlPanel extends JFrame{
         initComponents();
     }
    
-    
-    /*
-    
-    public void execute(int memoryLocation, boolean Continue, boolean Single) {
-        if(Continue){
-            //initialize PC
-            cpu.setPC(memoryLocation);
-            System.out.println(cpu.getPC());
-            if(mainMemory.getValue(cpu.getPC()) == null){
-                System.out.println("4"); 
-                return;
-            }
-            //put location from PC to MAR ,it needs 1 clock
-            cpu.setMAR(cpu.getMAR());
-            cpu.clock++;
-            System.out.println("2");            
-            //MCU uses the address in the MAR to fetch a word from memory and place it in MBR
-            if(mainMemory.getValue(cpu.getMAR()) == null){
-                cpu.setMBR("");
-            }
-            else{
-                cpu.setMBR(mainMemory.getValue(cpu.getMAR()));
-            }
-            cpu.clock++;
-            System.out.println("3"); 
-            //The contents of MBR are moved to the IR. This takes 1 cycle.
-            cpu.setIR(cpu.getMBR());
-            cpu.clock++;
-            System.out.println(cpu.getPC());
-            System.out.println(cpu.getMAR());
-            System.out.println(cpu.getMBR());
-            System.out.println(cpu.getIR());
-            ShowNumberR(cpu.getR0(),cpu.getR1(), cpu.getR2(), cpu.getR3(),"0", "0", "0", "0", true);
-            ShowNumberX("", "", "", cpu.getX1(),cpu.getX2(), cpu.getX3(), true);
-            ShowNumberO( "", "", cpu.getMBR(), cpu.getIR(), cpu.getPC(), cpu.getMAR(), "0", "0", true);
-            ShowNumberZ(cpu.getMFR(), cpu.getCC());    
-            System.out.println(cpu.clock);
-            
-            //extract the opcode, R(registerSelect), IX, I, address from the IR.
-            //we transfer long to int for saving space of memory,
-            //instructions below show the transfer process: string of binary number -> long -> int
-            cpu.opcode = Integer.parseInt(String.valueOf(Long.valueOf(cpu.getIR())/100000/100000),2);
-            cpu.registerSelect = Integer.parseInt(String.valueOf(Long.valueOf(cpu.getIR())/100000000%100),2);
-            cpu.IX = Integer.parseInt(String.valueOf(Long.valueOf(cpu.getIR())/1000000%100),2);
-            cpu.I = Integer.parseInt(String.valueOf(Long.valueOf(cpu.getIR())/100000%10));
-            cpu.address = Integer.parseInt(String.valueOf(Long.valueOf(cpu.getIR())%100000),2);
-            cpu.clock++;
-            //determine the class of opcode
-            switch (cpu.opcode){
-                case 1: cpu.LDR(mainMemory, cpu.registerSelect, cpu.IX, cpu.I, cpu.address);
-                break;
-                case 2: cpu.STR(mainMemory, cpu.registerSelect, cpu.IX, cpu.I, cpu.address);
-                break;
-                case 3: cpu.LDA(mainMemory, cpu.registerSelect, cpu.IX, cpu.I, cpu.address);
-                break;
-                case 41: cpu.LDX(mainMemory, cpu.IX, cpu.I, cpu.address);
-                break;
-                case 42: cpu.STX(mainMemory, cpu.IX, cpu.I, cpu.address);
-                break;
-
-            }
-            cpu.setPC(cpu.getPC()+1);
-            if(Single){
-                Continue = false;
-                PC = cpu.getPC();               
-            }
-            execute(cpu.getPC(), Continue, Single);
-        }
-        else{
-            PC = cpu.getPC();
-        }
-    }
-    */
-   
-    
+       
     private void enableButton(){
         this.button_execute.setEnabled(true);
         this.button_compare.setEnabled(true);
@@ -872,38 +806,37 @@ public class ControlPanel extends JFrame{
     }
     
     public void Halt(){
-        Continue = false;
+        this.tempPC = cpu.getPC();
+        this.tempIR = cpu.getBinaryStringOfIR();
+        printConsole("Halt - PC: " + this.tempPC +", instruction: "+ tempIR);
+        
+        cpu.setMAR(cpu.getPC());
+        cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+        cpu.setIR(cpu.getIntMBR());
+        String ins = cpu.getBinaryStringOfIR();
+        printConsole("PC: " + cpu.getPC() + ", instruction: " + ins);
+        runInstruction(ins, cpu, mcu);
     }
       
     public void Run(){
-        Continue = true;
-        Single = false;
-        PC = cpu.getPC();
-        execute(PC, Continue, Single);
-    }
-    
-    public void Run(int pc){
-        Continue = true;
-        Single = false;
-        PC = pc;
-        execute(PC, Continue, Single);
-    }
-    
-    public void Single(){
-        Single = true;
-        Continue = true;
-        execute(PC, Continue, Single);
+        cpu.setMAR(this.tempPC);
+        cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+        cpu.setIR(cpu.getIntMBR());
+        String ins = cpu.getBinaryStringOfIR();
+        printConsole("PC: " + cpu.getPC() + ", instruction: " + ins);
+        runInstruction(ins, cpu, mcu);
+        Run();
     }
     
     public void refreshPanel(){
-        for (Component com : pnlRegisters.getComponents()) {
+        for (Component com : Global.getComponents()) {
             if (com instanceof JPanel) {
-                JPanel pnl = (JPanel) com;
+                JPanel panel = (JPanel) com;
                 int regVal = 0;
                 int bitLong = 0;
                 String bitString = "";
                 int i = 0;
-                for (Component comm : pnl.getComponents()) {
+                for (Component comm : panel.getComponents()) {
                     if (comm instanceof JLabel) {
                         JLabel lbl = (JLabel) comm;
                         regVal = cpu.getRegByName(lbl.getText());
@@ -911,6 +844,7 @@ public class ControlPanel extends JFrame{
                         bitString = StringUtil.decimalToBinary(regVal, bitLong);
                         i = bitLong;
                     }
+                    /*
                     if (comm instanceof JRadioButton) {
                         JRadioButton rdb = (JRadioButton) comm;
                         if (bitString.charAt(bitLong - i) == '1') {
@@ -920,6 +854,7 @@ public class ControlPanel extends JFrame{
                         }
                         i--;
                     }
+                    */
                     if (comm instanceof JTextField) {
                         JTextField txt = (JTextField) comm;
                         txt.setText(String.valueOf(regVal));
@@ -927,6 +862,15 @@ public class ControlPanel extends JFrame{
                 }
             }
         }        
+    }
+    
+    public void Single(){
+        cpu.setMAR(cpu.getPC());
+        cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+        cpu.setIR(cpu.getIntMBR());
+        String ins = cpu.getBinaryStringOfIR();
+        printConsole("PC: " + cpu.getPC() + ", instruction: " + ins);
+        runInstruction(ins, cpu, mcu);
     }
     
     private void SearchINAddress(String keyIN){
@@ -1323,7 +1267,7 @@ public class ControlPanel extends JFrame{
             if (Const.OPCODE.containsKey(opCode)) {
 
                 Abstractinstruction instr = (Abstractinstruction) Class
-                        .forName("alu.instruction." + Const.OPCODE.get(opCode)).newInstance();
+                        .forName("instruction." + Const.OPCODE.get(opCode)).newInstance();
                 instr.execute(instruction, cpu, mcu);
                 System.out.println("PC: " + cpu.getPC() + ", instruction: " + instruction);
                 // printConsole("instruction: " + instruction);

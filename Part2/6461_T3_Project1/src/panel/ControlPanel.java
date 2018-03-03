@@ -513,6 +513,7 @@ public class ControlPanel extends JFrame{
         this.panel_leftbot.add(this.panel_memory);
 
         this.label_console_keyboard.addKeyListener(new KeyAdapter() { // TODO
+            @Override
             public void keyReleased(KeyEvent e) {
                 mcu.setKeyboardBuffer(label_console_keyboard.getText());
             }

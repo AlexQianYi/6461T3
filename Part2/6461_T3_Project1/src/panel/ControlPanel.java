@@ -599,7 +599,6 @@ public class ControlPanel extends JFrame{
                     } while(cpu.getPC() <= Const.PG1_END_3 && cpu.getPC() >= Const.PG1_BASE_3);
                     
                     refreshPanel();
-                    program1Step = 0;
                         
                     
                 }
@@ -758,6 +757,8 @@ public class ControlPanel extends JFrame{
                 System.out.println("Clear");
                 ConsoleString = "";
                 text_console_print.setText("");
+                text_console_keyboard.setText("");
+                program1Step=0;
             }
         });      
         

@@ -512,14 +512,7 @@ public class ControlPanel extends JFrame{
         this.panel_memory.setPreferredSize(new Dimension(30, 1500));
         this.panel_leftbot.add(this.panel_memory);
 
-        
-       text_console_keyboard.addKeyListener(new KeyAdapter() {   //创建机制
-            public void keyReleased(KeyEvent e) {        //重载函数，释放按键触发
-                JTextField textField = (JTextField) e.getSource();  //得到最初发生event的组件对象,既是文本框对象
-                String text = textField.getText();
-                textField.setText(text.toUpperCase());      //将所有的小写字母转换成大写字母
-                    }  
-                });
+       
         
          /**
           * Read 20 numbers ========================================================
@@ -530,7 +523,7 @@ public class ControlPanel extends JFrame{
                 if(program1Step==0){
                     // read 20 number from console
                     System.out.println("Start reading numbers...");
-                    mcu.setKeyboardBuffer(label_console_keyboard.getText());
+                    mcu.setKeyboardBuffer(text_console_keyboard.getText());
                     if (text_console_keyboard.getText()==null || text_console_keyboard.getText().length()==0){
                         JOptionPane.showMessageDialog(null, "type 20 numbers in the console keyboard");
                     }else{

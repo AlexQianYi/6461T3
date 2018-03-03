@@ -537,7 +537,6 @@ public class ControlPanel extends JFrame{
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                             cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
-                            for(int i=7; i<27;i++){
                                 System.out.print(mcu.getKeyboardBuffer().charAt(0)+" ");
                                 System.out.print(mcu.fetchFromMemory(7)+" ");
                                 System.out.print(mcu.fetchFromMemory(9)+" ");
@@ -550,7 +549,6 @@ public class ControlPanel extends JFrame{
                                 System.out.print(mcu.fetchFromMemory(23)+" ");
                                 System.out.print(mcu.fetchFromMemory(25)+" ");
                                 System.out.println(mcu.fetchFromMemory(26)+" ");
-                            }
                         }while(cpu.getPC() <= Const.PG1_END_1 && cpu.getPC() >= Const.PG1_BASE_1);
                         refreshPanel();
                         program1Step = 1;

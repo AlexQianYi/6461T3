@@ -48,7 +48,7 @@ public class ControlPanel extends JFrame{
    
    private JTextArea text_console_print, text_console_keyboard;
    private JTable text_console_cache;
-   private JScrollPane scrollPane_cache;
+   private JScrollPane scrollPane_cache, scrollPane_console_printer;
    
    private JButton button_load,button_find, button_compare,button_read20number,button_execute,button_p1,button_p2,button_enter,button_run,button_halt,button_deposit,button_singlestep,button_console,button_memory,button_IPL;
    private JRadioButton[] instruction;
@@ -676,11 +676,13 @@ public class ControlPanel extends JFrame{
         //console text area  right part
         this.panel_console_print=new JPanel(new BorderLayout(0,0));
         this.text_console_print=new JTextArea();
+        this.scrollPane_console_printer = new JScrollPane();
         this.text_console_print.setPreferredSize(new Dimension(400, 300));
         this.text_console_print.setLineWrap(true);
         this.label_console_printer=new JLabel("Console Printer");
         this.panel_console_print.add(label_console_printer,BorderLayout.NORTH);
-        this.panel_console_print.add(text_console_print,BorderLayout.CENTER);
+        this.scrollPane_console_printer.setViewportView(text_console_print);
+        this.panel_console_print.add(scrollPane_console_printer,BorderLayout.CENTER);
        
         this.panel_console_keyboard=new JPanel(new BorderLayout(10,10));
         this.text_console_keyboard=new JTextArea();

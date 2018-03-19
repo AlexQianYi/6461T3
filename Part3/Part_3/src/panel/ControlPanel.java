@@ -691,27 +691,20 @@ public class ControlPanel extends JFrame{
                             System.out.println(mcu.fetchFromMemory(30)+" ");
                         } while(cpu.getPC() <= Const.PG1_END_3 && cpu.getPC() >= Const.PG1_BASE_3);
                         
-                        
-                    
-                    refreshPanel();
-                    program1Step = 0;
+                        System.out.println("print result in address 29");
+                        printConsole("the sentence number is: ");
+                        mcu.loadProgram(Program2.PrintResult1);
+                        cpu.setPC(Const.PG2_BASE4);
+                        do{
+                            cpu.setMAR(cpu.getPC());
+                            cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+                            cpu.setIR(cpu.getMBR());
+                            runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
+                        }while(cpu.getPC() <= Const.PG2_END4 && cpu.getPC() >= Const.PG2_BASE4);
+                        refreshPanel();                                
+                      
+                        program2Step = 0;
                     }
-                    
-                    String sentences = readfiles();
-                    mcu.loadProgram(Program2.PRE);
-                    mcu.loadProgram(Program2.PROGRAM2_1);
-                    cpu.setPC(Const.PG2_BASE);
-                    
-                    do{
-                        cpu.setMAR(cpu.getPC());
-                        cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                        cpu.setIR(cpu.getMBR());
-                        runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
-                    } while(cpu.getPC() <= Const.PG2_END1 && cpu.getPC() >= Const.PG2_BASE1);
-                    
-                    printConsole("Please enter a word need to be searched in console keyboard...");
-                    refreshPanel();
-                    program2Step = 1;
                     
                 }    
             }

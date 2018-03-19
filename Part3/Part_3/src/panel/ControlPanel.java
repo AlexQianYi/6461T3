@@ -66,7 +66,7 @@ public class ControlPanel extends JFrame{
    Memory mainMemory;
    CPU cpu;
    MCU mcu;
-   private int program1Step;
+   private int program1Step, program2Step;
    
    private int PC;
 
@@ -537,18 +537,6 @@ public class ControlPanel extends JFrame{
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                             cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
-                                System.out.print(mcu.getKeyboardBuffer().charAt(0)+" ");
-                                System.out.print(mcu.fetchFromMemory(7)+" ");
-                                System.out.print(mcu.fetchFromMemory(9)+" ");
-                                System.out.print(mcu.fetchFromMemory(11)+" ");
-                                System.out.print(mcu.fetchFromMemory(13)+" ");
-                                System.out.print(mcu.fetchFromMemory(15)+" ");
-                                System.out.print(mcu.fetchFromMemory(17)+" ");
-                                System.out.print(mcu.fetchFromMemory(19)+" ");
-                                System.out.print(mcu.fetchFromMemory(21)+" ");
-                                System.out.print(mcu.fetchFromMemory(23)+" ");
-                                System.out.print(mcu.fetchFromMemory(25)+" ");
-                                System.out.println(mcu.fetchFromMemory(26)+" ");
                         }while(cpu.getPC() <= Const.PG1_END_1 && cpu.getPC() >= Const.PG1_BASE_1);
                         refreshPanel();
                         program1Step = 1;
@@ -632,6 +620,78 @@ public class ControlPanel extends JFrame{
         this.panel_control.add(this.button_IPL);
        
         this.panel_leftbot.add(this.panel_control);
+        
+        //Load sentence
+        this.button_load.addActionListener(new java.awt.event.ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(program2Step==0){
+                    // read 6 sentences from file
+                    System.out.println("Start reading sentences...");
+                    
+                    String sentences = readfiles();
+                    mcu.loadProgram(Program2.PRE);
+                    mcu.loadProgram(Program2.PROGRAM2_1);
+                    cpu.setPC(Const.PG2_BASE);
+                    
+                    do{
+                        cpu.setMAR(cpu.getPC());
+                        cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+                        cpu.setIR(cpu.getMBR());
+                        runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
+                    } while(cpu.getPC() <= Const.PG2_END1 && cpu.getPC() >= Const.PG2_BASE1);
+                    
+                    printConsole("Please enter a word need to be searched in console keyboard...");
+                    refreshPanel();
+                    program2Step = 1;
+                    
+                }    
+            }
+        });
+        
+        //Find word
+        this.button_find.addActionListener(new java.awt.event.ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(program2Step==1){
+                    System.out.println("Start reading words...");
+                    if(text_console_keyboard.getText()==null|| text_console_keyboard.getText().length()==0){
+                        JOptionPane.showMessageDialog(null, "type a word in the console keyboard!");
+                    }else{
+                        //read word
+                        printConsole("search reault is ");
+                        mcu.loadProgram(Program2.PROGRAM2_2);
+                        cpu.setPC(Const.PG2_BASE2);
+                        do{
+                            cpu.setMAR(cpu.getPC());
+                            cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+                            cpu.setIR(cpu.getMBR());
+                            runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
+                        }while(cpu.getPC()<=Const.PG2_END2 && cpu.getPC() > Const.PG2_BASE2);
+                        
+                        //search word
+                        printConsole("the word in number: ");
+                    }
+                    
+                    String sentences = readfiles();
+                    mcu.loadProgram(Program2.PRE);
+                    mcu.loadProgram(Program2.PROGRAM2_1);
+                    cpu.setPC(Const.PG2_BASE);
+                    
+                    do{
+                        cpu.setMAR(cpu.getPC());
+                        cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+                        cpu.setIR(cpu.getMBR());
+                        runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
+                    } while(cpu.getPC() <= Const.PG2_END1 && cpu.getPC() >= Const.PG2_BASE1);
+                    
+                    printConsole("Please enter a word need to be searched in console keyboard...");
+                    refreshPanel();
+                    program2Step = 1;
+                    
+                }    
+            }
+        });        
         
         this.button_singlestep.addActionListener(new java.awt.event.ActionListener() {
             @Override

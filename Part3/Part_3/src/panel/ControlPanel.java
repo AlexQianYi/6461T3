@@ -671,6 +671,30 @@ public class ControlPanel extends JFrame{
                         
                         //search word
                         printConsole("the word in number: ");
+                        mcu.loadProgram(Program2.PROGRAM2_3);
+                        cpu.setPC(Const.PG2_BASE3);
+                        do{
+                            cpu.setMAR(cpu.getPC());
+                            cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+                            cpu.setIR(cpu.getMBR());
+                            runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
+                        }while(cpu.getPC()<=Const.PG2_END3 && cpu.getPC() >= Const.PG_BASE3);
+                        
+                        System.out.println("print result in address 28");                        
+                        mcu.loadProgram(Program1.PrintResult1);
+                        cpu.setPC(Const.PG1_BASE_3);
+                        do{
+                            cpu.setMAR(cpu.getPC());
+                            cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+                            cpu.setIR(cpu.getIntMBR());
+                            runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
+                            System.out.println(mcu.fetchFromMemory(30)+" ");
+                        } while(cpu.getPC() <= Const.PG1_END_3 && cpu.getPC() >= Const.PG1_BASE_3);
+                        
+                        
+                    
+                    refreshPanel();
+                    program1Step = 0;
                     }
                     
                     String sentences = readfiles();

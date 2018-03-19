@@ -28,6 +28,7 @@ import java.awt.event.KeyEvent;
 import memory.Cache;
 import util.MachineFaultException;
 import util.StringUtil;
+import util.Program2;
 
 public class ControlPanel extends JFrame{
    
@@ -637,7 +638,7 @@ public class ControlPanel extends JFrame{
                     do{
                         cpu.setMAR(cpu.getPC());
                         cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                        cpu.setIR(cpu.getMBR());
+                        cpu.setIR(cpu.getIntMBR());
                         runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                     } while(cpu.getPC() <= Const.PG2_END1 && cpu.getPC() >= Const.PG2_BASE1);
                     
@@ -665,7 +666,7 @@ public class ControlPanel extends JFrame{
                         do{
                             cpu.setMAR(cpu.getPC());
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                            cpu.setIR(cpu.getMBR());
+                            cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                         }while(cpu.getPC()<=Const.PG2_END2 && cpu.getPC() > Const.PG2_BASE2);
                         
@@ -676,7 +677,7 @@ public class ControlPanel extends JFrame{
                         do{
                             cpu.setMAR(cpu.getPC());
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                            cpu.setIR(cpu.getMBR());
+                            cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                         }while(cpu.getPC()<=Const.PG2_END3 && cpu.getPC() >= Const.PG_BASE3);
                         
@@ -698,7 +699,7 @@ public class ControlPanel extends JFrame{
                         do{
                             cpu.setMAR(cpu.getPC());
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                            cpu.setIR(cpu.getMBR());
+                            cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                         }while(cpu.getPC() <= Const.PG2_END4 && cpu.getPC() >= Const.PG2_BASE4);
                         refreshPanel();                                

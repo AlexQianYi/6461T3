@@ -43,7 +43,7 @@ public class Program2 {
     
     //read/store sentences
     public static final HashMap<String, Integer> PROGRAM2_1 = new HashMap<>();
-    {
+    static{
             PROGRAM2_1.put("1600", 0xf34);      //LDA R3 m(20)
             
             //input 1 sentence==null?
@@ -76,7 +76,7 @@ public class Program2 {
     
     //read/store 1 word need to be searched
     public static final HashMap<String, Integer> PROGRAM2_2 = new HashMap<>();
-    {
+    static{
         PROGRAM2_2.put("1700", 0xf33);      //LDA R3<-m(19)     R3=79
         
         //read word
@@ -95,12 +95,31 @@ public class Program2 {
         PROGRAM2_2.put("1712", 0x813);      //STR m(19)<-R0
         PROGRAM2_2.put("1713", 0x933);      //STR m(m(19))<-R1  store word at 80
         PROGRAM2_2.put("1714", 0xe31);      //LDA R2<-m(17)     R2=1721
-        
+        PROGRAM2_2.put("1715", 0x1e14);     //SIR R2<-R2-imm(20)
+        PROGRAM2_2.put("1716", 0xa11);      //STR m(17)<-R2
+        PROGRAM2_2.put("1717", 0x3431);     //JMA PC<-1701
     }
     
     //search word in sentences
     public static final HashMap<String, Integer> PROGRAM2_3 = new HashMap<>();
-    {
-        
+    static{
+           PROGRAM2_3.put("900", 0x61f);        //LDA R3<-m(31)     R3=0
+           PROGRAM2_3.put("901", 0x1a01);       //AIR R3<-R3+imm(1) R3=1
+           //PROGRAM2_3.put("902", 0x422f);       //SOB
+           PROGRAM2_3.put("903", 0x342e);       //JMA PC<-m(14)     jump to end of program
+           PROGRAM2_3.put("904", 0x416);        //LDA R0<-m(22)     R0=i
+           PROGRAM2_3.put("905", 0x1801);       //AIR R0<-R0+imm(1)
+           PROGRAM2_3.put("906", 0x816);        //STR m(22)<-R0
+           PROGRAM2_3.put("907", 0x414);        //LDR R0<-m(m(20))  R3=99
+           PROGRAM2_3.put("908", 0x1801);       //AIR R0<-R0+imm(1) R0=100
+           PROGRAM2_3.put("909", 0x814);        //STR m(20)<-R0
+           PROGRAM2_3.put("910", 0x534);        //LDR R1<-m(m(20))  load sentence from address 100
+           PROGRAM2_3.put("911", 0x419);        //LDR R0<-m(m(25))  R0=46 load '.'
+           PROGRAM2_3.put("912", 0x5840);       //TRR R1 R0         whether == '.'
+           PROGRAM2_3.put("913", 0x332d);       //JCC if=='.' PC<-m(13) PC=951
+           PROGRAM2_3.put("914", 0x41b);        //LDR R0<-m(m(27))  load ' '
+           PROGRAM2_3.put("915", 0x5840);       //TRR R1 R0         whether == ' '
+           PROGRAM2_3.put("916", 0x61f);        //LDA R3<-m(31)
+            
     }
 }

@@ -40,4 +40,64 @@ public class Program2 {
             PRE.put("8", 902);      //the third JMA address
             PRE.put("7", 80);      
     }
+    
+    //read/store sentences
+    public static final HashMap<String, Integer> PROGRAM2_1 = new HashMap<>();
+    {
+            PROGRAM2_1.put("1600", 0xf34);      //LDA R3 m(20)
+            
+            //input 1 sentence==null?
+            PROGRAM2_1.put("1601", 0xf502);     //IN R1<-input
+            PROGRAM2_1.put("1602", 0xe32);      //LDA R2<-m(18)     R2=1601
+            PROGRAM2_1.put("1603", 0x1a14);     //AIR R2<-R2+20     R2=1621
+            PROGRAM2_1.put("1604", 0xa12);      //STR m(18)<-R2
+            PROGRAM2_1.put("1605", 0x2932);     //JZ R1==0?PC<-m(18):PC++
+            
+            PROGRAM2_1.put("1606", 0xf901);     //OUT output<-R1
+            PROGRAM2_1.put("1607", 0xc3f);      //LDA R0<-m(31)     R0=0
+            PROGRAM2_1.put("1608", 0x1801);     //AIR R0<-R0+1      R0=1    1 word
+            PROGRAM2_1.put("1609", 0x81f);      //STR m(31)<-R1     m(31)=1
+            PROGRAM2_1.put("1610", 0xc34);      //LDA R0<-m(20)     R0=99
+            PROGRAM2_1.put("1611", 0x1801);     //AIR R0<-R0+1      R0=100
+            PROGRAM2_1.put("1612", 0x814);      //STR m(20)<-R0     m(20)=100
+            PROGRAM2_1.put("1613", 0x934);      //STR m(100)<-R1    store input at address 100
+            PROGRAM2_1.put("1614", 0xe32);      //LDA R2<-m(18)     R2=1621
+            PROGRAM2_1.put("1615", 0x1e14);     //SIR R2<-R2-imm(20)R2=1601
+            PROGRAM2_1.put("1616", 0xa12);      //STR m(18)<-R2     m(18)=1601
+            PROGRAM2_1.put("1617", 0x3432);     //JMA m(18)         PC=1601
+            
+            //input 2 sentence==null?
+            PROGRAM2_1.put("1621", 0x7d8f);     //SRC reset R1<-0
+            PROGRAM2_1.put("1622", 0x190a);     //AIR R1<-R1+imm(10) R1=10
+            PROGRAM2_1.put("1623", 0xf901);     //OUT output<-R1
+            PROGRAM2_1.put("1624", 0xb14);      //STR m(20)<-R3
+                       
+    }
+    
+    //read/store 1 word need to be searched
+    public static final HashMap<String, Integer> PROGRAM2_2 = new HashMap<>();
+    {
+        PROGRAM2_2.put("1700", 0xf33);      //LDA R3<-m(19)     R3=79
+        
+        //read word
+        PROGRAM2_2.put("1701", 0xf500);     //IN R1<-input
+        PROGRAM2_2.put("1702", 0xe31);      //LDA R2<-m(17)     R2=1701
+        PROGRAM2_2.put("1703", 0x1a14);     //AIR R2<-R2+imm(20)R2=1721
+        PROGRAM2_2.put("1704", 0xa11);      //STR m(17)<-R2     m(17)=1721
+        PROGRAM2_2.put("1705", 0x2931);     //JZ
+        
+        PROGRAM2_2.put("1706", 0xf901);     //OUT output<-R1
+        PROGRAM2_2.put("1707", 0xc3e);      //LDA R0<-m(30)     R0=0    length of word
+        PROGRAM2_2.put("1708", 0x1801);     //AIR R0<-R0+imm(1) R0=1
+        PROGRAM2_2.put("1709", 0x81e);      //STR m(30)<-R0
+        PROGRAM2_2.put("1710", 0xc33);      //LDA R0<-m(19)     R0=79
+        PROGRAM2_2.put("1711", 0x1801);     //AIR R0<-R0+imm(1) R0=80
+        
+    }
+    
+    //search word in sentences
+    public static final HashMap<String, Integer> PROGRAM2_3 = new HashMap<>();
+    {
+        
+    }
 }

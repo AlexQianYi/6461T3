@@ -106,7 +106,7 @@ public class Program2 {
            PROGRAM2_3.put("900", 0x61f);        //LDA R3<-m(31)     R3=0
            PROGRAM2_3.put("901", 0x1a01);       //AIR R3<-R3+imm(1) R3=1
            //PROGRAM2_3.put("902", 0x422f);       //SOB
-           PROGRAM2_3.put("903", 0x342e);       //JMA PC<-m(14)     jump to end of program
+           PROGRAM2_3.put("903", 0x342e);       //JMA PC<-m(14)     jump to end of program 989
            PROGRAM2_3.put("904", 0x416);        //LDR R0<-m(22)     R0=i
            PROGRAM2_3.put("905", 0x1801);       //AIR R0<-R0+imm(1)
            PROGRAM2_3.put("906", 0x816);        //STR m(22)<-R0
@@ -207,5 +207,139 @@ public class Program2 {
            PROGRAM2_3.put("989", 0x41d);        //LDR R0<-m(29)
            
             
+    }
+    
+    //print m(28)
+    public static final HashMap<String, Integer> PrintResult1 = new HashMap<>();
+    static{
+                PrintResult1.put("31", 1009); // start of the block (0)
+		// m(30) store the number that you want to print
+		PrintResult1.put("6", 50); // store every digit of the numbers starting from
+
+		// program begins
+
+		PrintResult1.put("1000", 0x7d8f); // reset r1
+		PrintResult1.put("1001", 0x190a); // AIR r1, 10
+		PrintResult1.put("1002", 0x926); // store r1 into location of content of m(6)
+		PrintResult1.put("1003", 0xf26); // load r3 with content of m(6)
+		PrintResult1.put("1004", 0x1b01); // AIR r3, 1
+		PrintResult1.put("1005", 0xb06); // store r3 into m(6)
+		PrintResult1.put("1006", 0x7e8f); // reset r2
+		PrintResult1.put("1007", 0x1a0a); // AIR r2, 10
+		PrintResult1.put("1008", 0xc3c); // load r0 with content of m(28)
+
+		// (0)
+		PrintResult1.put("1009", 0x5480); // DVD r0, r2
+		PrintResult1.put("1010", 0xf3f);// load r3 with content of m(31)
+		PrintResult1.put("1011", 0x1b14);// AIR r3, 20
+		PrintResult1.put("1012", 0xb1f);// store r3 into m(31)
+		PrintResult1.put("1013", 0x283f);// JZ r0, content of m(31), means if r0 == 0
+									// jump to (1)
+		PrintResult1.put("1014", 0x1918);// r1 + 48, convert to ascii
+		PrintResult1.put("1015", 0x1918);
+		PrintResult1.put("1016", 0x926);// store r1 into location of content of m(6)
+		PrintResult1.put("1017", 0xf26);// load r3 with content of m(6)
+		PrintResult1.put("1018", 0x1b01);// AIR r3, 1
+		PrintResult1.put("1019", 0xb06);// store r3 into m(6)
+		PrintResult1.put("1020", 0xf3f);// load r3 with content of m(31)
+		PrintResult1.put("1021", 0x1f14);// SIR r3, 20
+		PrintResult1.put("1022", 0xb1f);// store r3 into m(31)
+		PrintResult1.put("1023", 0x343f);// JMA, content of m(31), means jump to (0)
+
+		// (1) r0 == 0, means has reach the highest digit of the number
+		PrintResult1.put("1029", 0x1918);// r1 + 48, convert to ascii
+		PrintResult1.put("1030", 0x1918);
+		PrintResult1.put("1031", 0x926);// store r1 into location of content of m(6)
+		PrintResult1.put("1032", 0xf3f);// load r3 with content of m(31)
+		PrintResult1.put("1033", 0x1b14);// AIR r3, 20
+		PrintResult1.put("1034", 0xb1f);// store r3 into m(31)
+		PrintResult1.put("1035", 0x7e8f);// reset r2
+		PrintResult1.put("1036", 0x1a0a);// AIR r2, 10 (new line sign, use to compare)
+		PrintResult1.put("1037", 0x343f);// JMA, content of m(31), means jump to (2)
+
+		// (2) print the digit one by one
+		PrintResult1.put("1049", 0x526);// load r1 with address of content of m(6)
+		PrintResult1.put("1050", 0xf901);// print r1 to console
+		PrintResult1.put("1051", 0xf3f);// load r3 with content of m(31)
+		PrintResult1.put("1052", 0x1b14);// AIR r3, 20
+		PrintResult1.put("1053", 0xb1f);// store r3 into m(31)
+		PrintResult1.put("1054", 0x5980);// TRR r1, r2
+		PrintResult1.put("1055", 0x333f);// JCC cc(3), content of m(31), mean jump to
+									// (3)
+		PrintResult1.put("1056", 0xf26);// load r3 with content of m(6)
+		PrintResult1.put("1057", 0x1f01);// SIR r3, 1
+		PrintResult1.put("1058", 0xb06);// store r3 into m(6)
+		PrintResult1.put("1059", 0xf3f);// load r3 with content of m(31)
+		PrintResult1.put("1060", 0x1f14);// SIR r3, 20
+		PrintResult1.put("1061", 0xb1f);// store r3 into m(31)
+		PrintResult1.put("1062", 0x343f);// JMA, content of m(31), means jump to (2)
+
+		// (3) finish printing the numbers
+		PrintResult1.put("1069", 0);
+    }
+    
+    //print m(29)
+    public static final HashMap<String, Integer> PrintResult2 = new HashMap<>();
+    static{
+		PrintResult2.put("31", 1109); // start of the block (0)
+		// m(30) store the number that you want to print
+		PrintResult2.put("6", 50); // store every digit of the numbers starting from
+                
+		PrintResult2.put("1100", 0x7d8f); // reset r1
+		PrintResult2.put("1101", 0x190a); // AIR r1, 10
+		PrintResult2.put("1102", 0x926); // store r1 into location of content of m(6)
+		PrintResult2.put("1103", 0xf26); // load r3 with content of m(6)
+		PrintResult2.put("1104", 0x1b01); // AIR r3, 1
+		PrintResult2.put("1105", 0xb06); // store r3 into m(6)
+		PrintResult2.put("1106", 0x7e8f); // reset r2
+		PrintResult2.put("1107", 0x1a0a); // AIR r2, 10
+		PrintResult2.put("1108", 0xc3d); // load r0 with content of m(29)
+
+		// (0)
+		PrintResult2.put("1109", 0x5480); // DVD r0, r2
+		PrintResult2.put("1110", 0xf3f);// load r3 with content of m(31)
+		PrintResult2.put("1111", 0x1b14);// AIR r3, 20
+		PrintResult2.put("1112", 0xb1f);// store r3 into m(31)
+		PrintResult2.put("1113", 0x283f);// JZ r0, content of m(31), means if r0 == 0
+									// jump to (1)
+		PrintResult2.put("1114", 0x1918);// r1 + 48, convert to ascii
+		PrintResult2.put("1115", 0x1918);
+		PrintResult2.put("1116", 0x926);// store r1 into location of content of m(6)
+		PrintResult2.put("1117", 0xf26);// load r3 with content of m(6)
+		PrintResult2.put("1118", 0x1b01);// AIR r3, 1
+		PrintResult2.put("1119", 0xb06);// store r3 into m(6)
+		PrintResult2.put("1120", 0xf3f);// load r3 with content of m(31)
+		PrintResult2.put("1121", 0x1f14);// SIR r3, 20
+		PrintResult2.put("1122", 0xb1f);// store r3 into m(31)
+		PrintResult2.put("1123", 0x343f);// JMA, content of m(31), means jump to (0)
+		// (1) r0 == 0, means has reach the highest digit of the number
+		PrintResult2.put("1129", 0x1918);// r1 + 48, convert to ascii
+		PrintResult2.put("1130", 0x1918);
+		PrintResult2.put("1131", 0x926);// store r1 into location of content of m(6)
+		PrintResult2.put("1132", 0xf3f);// load r3 with content of m(31)
+		PrintResult2.put("1133", 0x1b14);// AIR r3, 20
+		PrintResult2.put("1134", 0xb1f);// store r3 into m(31)
+		PrintResult2.put("1135", 0x7e8f);// reset r2
+		PrintResult2.put("1136", 0x1a0a);// AIR r2, 10 (new line sign, use to compare)
+		PrintResult2.put("1137", 0x343f);// JMA, content of m(31), means jump to (2)
+		// (2) print the digit one by one
+		PrintResult2.put("1149", 0x526);// load r1 with address of content of m(6)
+		PrintResult2.put("1150", 0xf901);// print r1 to console
+		PrintResult2.put("1151", 0xf3f);// load r3 with content of m(31)
+		PrintResult2.put("1152", 0x1b14);// AIR r3, 20
+		PrintResult2.put("1153", 0xb1f);// store r3 into m(31)
+		PrintResult2.put("1154", 0x5980);// TRR r1, r2
+		PrintResult2.put("1155", 0x333f);// JCC cc(3), content of m(31), mean jump to
+									// (3)
+		PrintResult2.put("1156", 0xf26);// load r3 with content of m(6)
+		PrintResult2.put("1157", 0x1f01);// SIR r3, 1
+		PrintResult2.put("1158", 0xb06);// store r3 into m(6)
+		PrintResult2.put("1159", 0xf3f);// load r3 with content of m(31)
+		PrintResult2.put("1160", 0x1f14);// SIR r3, 20
+		PrintResult2.put("1161", 0xb1f);// store r3 into m(31)
+		PrintResult2.put("1162", 0x343f);// JMA, content of m(31), means jump to (2)
+
+		// (3) finish printing the numbers
+		PrintResult2.put("1169", 0);        
     }
 }

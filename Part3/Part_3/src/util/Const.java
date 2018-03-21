@@ -26,6 +26,14 @@ public class Const {
     
     public static final Integer PG2_BASE1= 1600;
     public static final Integer PG2_END1= 1624;
+    public static final Integer PG2_BASE2= 1700;
+    public static final Integer PG2_END2= 1724;    
+    public static final Integer PG2_BASE3= 900;
+    public static final Integer PG2_END3= 989;
+    public static final Integer PG2_BASE4= 1000;
+    public static final Integer PG2_END4= 1062;
+    public static final Integer PG2_BASE5= 1100;
+    public static final Integer PG2_END5= 1162;
     
     public static final Integer Memory_Bound = 2048;
     public static final Integer Memory_Expand_Bound = 4096;

@@ -171,13 +171,23 @@ public class Program2 {
            PROGRAM2_3.put("958", 0x1c06);       //SIR R0<-R0-imm(6) = 914
            PROGRAM2_3.put("959", 0x806);        //STR m(6)<-R0
            PROGRAM2_3.put("960", 0x3426);       //JMA PC<-914
+           
            PROGRAM2_3.put("961", 0x41c);        //LDR R0<-m(28) 
            PROGRAM2_3.put("962", 0x1801);       //AIR R0<-R0+imm(1)
            PROGRAM2_3.put("963", 0x81c);        //STR m(28)<-R0
            PROGRAM2_3.put("964", 0x40d);        //LDR R0<-m(12)     R0=961
            PROGRAM2_3.put("965", 0x1c1f);       //SIR R0<-R0-imm(31) = 930
            PROGRAM2_3.put("966", 0x1c0d);       //SIR R0<-R0-imm(13) = 917
-           PROGRAM2_3.put("936", 0x3428);       //JMA PC<-902
+           PROGRAM2_3.put("967", 0x806);        //STR m(6)<-R0
+           PROGRAM2_3.put("968", 0x3426);       //JMA PC<-917
+           
+           PROGRAM2_3.put("969", 0x40a);        //LDR R0<-m(10)     R0=969
+           PROGRAM2_3.put("970", 0x1c1f);       //SIR R0<-R0-imm(31) = 938
+           PROGRAM2_3.put("971", 0x1c09);       //SIR R0<-R0-imm(9) = 929
+           PROGRAM2_3.put("972", 0x806);        //STR m(6)<-R0
+           PROGRAM2_3.put("973", 0x415);        //LDR R0<-m(21)
+           
+           
            
             
     }

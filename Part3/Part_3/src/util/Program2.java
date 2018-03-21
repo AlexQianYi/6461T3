@@ -186,8 +186,25 @@ public class Program2 {
            PROGRAM2_3.put("971", 0x1c09);       //SIR R0<-R0-imm(9) = 929
            PROGRAM2_3.put("972", 0x806);        //STR m(6)<-R0
            PROGRAM2_3.put("973", 0x415);        //LDR R0<-m(21)
+           PROGRAM2_3.put("974", 0x2826);       //JZ j==0 PC<-m(6)
            
+           PROGRAM2_3.put("975", 0x41d);        //LDR R0<-m(29)
+           PROGRAM2_3.put("976", 0x1c01);       //SIR R0<-R0-imm(1)
+           PROGRAM2_3.put("977", 0x81d);        //STR m(29)<-R0
+           PROGRAM2_3.put("978", 0x3426);       //JMA PC<-m(29)
            
+           PROGRAM2_3.put("979", 0x409);        //LDR R0<-m(9) 979
+           PROGRAM2_3.put("980", 0x1c1f);       //SIR R0<-R0-imm(31) = 948
+           PROGRAM2_3.put("981", 0x1c10);       //SIR R0<-R0-imm(16) = 932
+           PROGRAM2_3.put("982", 0x806);        //STR m(6)<-R0
+           PROGRAM2_3.put("983", 0x415);        //LDR R0<-m(21)
+           PROGRAM2_3.put("984", 0x2826);       //JZ
+           
+           PROGRAM2_3.put("985", 0x41c);        //LDR R0<-m(28)
+           PROGRAM2_3.put("986", 0x1c01);       //SIR R0<-R0-imm(1)
+           PROGRAM2_3.put("987", 0x81c);        //STR m(28)<-R0
+           PROGRAM2_3.put("988", 0x3426);       //JMA
+           PROGRAM2_3.put("989", 0x41d);        //LDR R0<-m(29)
            
             
     }

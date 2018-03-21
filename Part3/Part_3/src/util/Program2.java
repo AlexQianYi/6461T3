@@ -107,19 +107,78 @@ public class Program2 {
            PROGRAM2_3.put("901", 0x1a01);       //AIR R3<-R3+imm(1) R3=1
            //PROGRAM2_3.put("902", 0x422f);       //SOB
            PROGRAM2_3.put("903", 0x342e);       //JMA PC<-m(14)     jump to end of program
-           PROGRAM2_3.put("904", 0x416);        //LDA R0<-m(22)     R0=i
+           PROGRAM2_3.put("904", 0x416);        //LDR R0<-m(22)     R0=i
            PROGRAM2_3.put("905", 0x1801);       //AIR R0<-R0+imm(1)
            PROGRAM2_3.put("906", 0x816);        //STR m(22)<-R0
-           PROGRAM2_3.put("907", 0x414);        //LDR R0<-m(m(20))  R3=99
+           PROGRAM2_3.put("907", 0x414);        //LDR R0<-m(m(20))  R0=99
            PROGRAM2_3.put("908", 0x1801);       //AIR R0<-R0+imm(1) R0=100
            PROGRAM2_3.put("909", 0x814);        //STR m(20)<-R0
            PROGRAM2_3.put("910", 0x534);        //LDR R1<-m(m(20))  load sentence from address 100
            PROGRAM2_3.put("911", 0x419);        //LDR R0<-m(m(25))  R0=46 load '.'
            PROGRAM2_3.put("912", 0x5840);       //TRR R1 R0         whether == '.'
            PROGRAM2_3.put("913", 0x332d);       //JCC if=='.' PC<-m(13) PC=951
+           
            PROGRAM2_3.put("914", 0x41b);        //LDR R0<-m(m(27))  load ' '
            PROGRAM2_3.put("915", 0x5840);       //TRR R1 R0         whether == ' '
-           PROGRAM2_3.put("916", 0x61f);        //LDA R3<-m(31)
+           PROGRAM2_3.put("916", 0x332c);       //JCC if==' ' PC<-m(12) PC=961
+           
+           PROGRAM2_3.put("917", 0x627);        //LDR R2<-m(m(80)) first capital of word
+           PROGRAM2_3.put("918", 0x5980);       //TRR R1 R2
+           PROGRAM2_3.put("919", 0x332b);       //JCC if==captial PC=937
+           
+           PROGRAM2_3.put("920", 0x416);        //LDR R0<-m(m(22))  R0=i
+           PROGRAM2_3.put("921", 0x1415);       //SMR R0<-i-j
+           PROGRAM2_3.put("922", 0x816);        //STR m(22)<-R0
+           PROGRAM2_3.put("923", 0x414);        //LDR R0<-m(m(20))  R0=100
+           PROGRAM2_3.put("924", 0x1415);       //SMR R0<-100-j
+           PROGRAM2_3.put("925", 0x814);        //STR m(20)<-100-j
+           PROGRAM2_3.put("926", 0x419);        //LDR R0<-m(m(25))  R0='.'
+           PROGRAM2_3.put("927", 0x5840);       //TRR R1 R0
+           PROGRAM2_3.put("928", 0x332a);       //JCC if==captial PC=969
+           
+           PROGRAM2_3.put("929", 0x41b);        //LDR R0<-m(m(27))  R0=' '
+           PROGRAM2_3.put("930", 0x5840);       //TRR R1 R0         whether == ' '
+           PROGRAM2_3.put("931", 0x3329);       //JCC if==' ' PC<-m(9) PC=979
+
+           PROGRAM2_3.put("932", 0x41a);        //LDR R0<-m(m(26))  R0=0
+           PROGRAM2_3.put("933", 0x815);        //STR m(21)<-R0     j=0
+           PROGRAM2_3.put("934", 0x410);        //LDR R0<-m(m(16))  R0=80
+           PROGRAM2_3.put("935", 0x807);        //STR m(7)<-R0
+           PROGRAM2_3.put("936", 0x3428);       //JMA PC<-902
+           
+           PROGRAM2_3.put("937", 0x415);        //LDR R0<-m(21)     R0=j
+           PROGRAM2_3.put("938", 0x918);        //STR m(24)<-R1
+           PROGRAM2_3.put("939", 0x51e);        //LDE R1<-m(30)
+           PROGRAM2_3.put("940", 0x1d01);       //SIR R1<-R1-imm(1)
+           PROGRAM2_3.put("941", 0x5840);       //TRR R1 R0
+           PROGRAM2_3.put("942", 0x518);        //STR m(24)<-R1
+           PROGRAM2_3.put("943", 0x332e);       //JCC R1==R0?989:PC++
+           PROGRAM2_3.put("944", 0x415);        //LDR R0<-m(21)     R0=j
+           PROGRAM2_3.put("945", 0x1801);       //AIR R0<-R0+imm(1) j increase
+           PROGRAM2_3.put("946", 0x815);        //STR m(21)<-R0
+           PROGRAM2_3.put("947", 0x407);        //LDR R0<-m(7)
+           PROGRAM2_3.put("948", 0x1801);       //AIR R0<-R0+imm(1)
+           PROGRAM2_3.put("949", 0x807);        //STR m(7)<-R0
+           PROGRAM2_3.put("950", 0x3428);       //JMA PC<-902
+           
+           PROGRAM2_3.put("951", 0x41d);        //LDR R0<-m(29)
+           PROGRAM2_3.put("952", 0x1801);       //AIR R0<-R0+imm(1)
+           PROGRAM2_3.put("953", 0x81d);        //STR m(29)<-R0
+           PROGRAM2_3.put("954", 0x41a);        //LDR R0<-m(26)
+           PROGRAM2_3.put("955", 0x81c);        //STR m(28)<-R0     set m(28)=0
+           PROGRAM2_3.put("956", 0x40d);        //LDR R0<-m(13)     R0=951
+           PROGRAM2_3.put("957", 0x1c1f);       //SIR R0<-R0-imm(31) = 920
+           PROGRAM2_3.put("958", 0x1c06);       //SIR R0<-R0-imm(6) = 914
+           PROGRAM2_3.put("959", 0x806);        //STR m(6)<-R0
+           PROGRAM2_3.put("960", 0x3426);       //JMA PC<-914
+           PROGRAM2_3.put("961", 0x41c);        //LDR R0<-m(28) 
+           PROGRAM2_3.put("962", 0x1801);       //AIR R0<-R0+imm(1)
+           PROGRAM2_3.put("963", 0x81c);        //STR m(28)<-R0
+           PROGRAM2_3.put("964", 0x40d);        //LDR R0<-m(12)     R0=961
+           PROGRAM2_3.put("965", 0x1c1f);       //SIR R0<-R0-imm(31) = 930
+           PROGRAM2_3.put("966", 0x1c0d);       //SIR R0<-R0-imm(13) = 917
+           PROGRAM2_3.put("936", 0x3428);       //JMA PC<-902
+           
             
     }
 }

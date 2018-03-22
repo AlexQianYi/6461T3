@@ -634,7 +634,7 @@ public class ControlPanel extends JFrame{
                     //String sentences = readfiles();
                     String sentences = "Hello every one this is team 3. "
                             +"Our team members are Yi Qian, Kailing Huang, Siyu Sun, Xiaokun Xu. "
-                            +"We are from China different provinces. "
+                            +"We are from China different provinces.\n "
                             +"Python is our favourite programming language. "
                             +"It has efficient data structure and simple grammer. "
                             +"Python makes program easier. ";

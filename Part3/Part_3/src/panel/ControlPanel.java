@@ -638,6 +638,7 @@ public class ControlPanel extends JFrame{
                             +"Python is our favourite programming language."
                             +"It has efficient data structure and simple grammer."
                             +"Python makes program easier!";
+                    mcu.setCardBuffer(sentences);
                     mcu.loadProgram(Program2.PRE);
                     mcu.loadProgram(Program2.PROGRAM2_1);
                     cpu.setPC(Const.PG2_BASE1);

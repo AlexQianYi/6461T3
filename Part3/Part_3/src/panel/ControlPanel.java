@@ -630,10 +630,17 @@ public class ControlPanel extends JFrame{
                     // read 6 sentences from file
                     System.out.println("Start reading sentences...");
                     
-                    String sentences = readfiles();
+                    //TODO: add readfiles here
+                    //String sentences = readfiles();
+                    String sentences = "Hello every one this is team 3."
+                            +"Our team members are Yi Qian, Kailing Huang, Siyu Sun, Xiaokun Xu."
+                            +"We are from China different provinces."
+                            +"Python is our favourite programming language."
+                            +"It has efficient data structure and simple grammer."
+                            +"Python makes program easier!";
                     mcu.loadProgram(Program2.PRE);
                     mcu.loadProgram(Program2.PROGRAM2_1);
-                    cpu.setPC(Const.PG2_BASE);
+                    cpu.setPC(Const.PG2_BASE1);
                     
                     do{
                         cpu.setMAR(cpu.getPC());
@@ -679,21 +686,10 @@ public class ControlPanel extends JFrame{
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                             cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
-                        }while(cpu.getPC()<=Const.PG2_END3 && cpu.getPC() >= Const.PG_BASE3);
+                        }while(cpu.getPC()<=Const.PG2_END3 && cpu.getPC() >= Const.PG2_BASE3);
                         
+                        //print 1
                         System.out.println("print result in address 28");                        
-                        mcu.loadProgram(Program1.PrintResult1);
-                        cpu.setPC(Const.PG1_BASE_3);
-                        do{
-                            cpu.setMAR(cpu.getPC());
-                            cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                            cpu.setIR(cpu.getIntMBR());
-                            runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
-                            System.out.println(mcu.fetchFromMemory(30)+" ");
-                        } while(cpu.getPC() <= Const.PG1_END_3 && cpu.getPC() >= Const.PG1_BASE_3);
-                        
-                        System.out.println("print result in address 29");
-                        printConsole("the sentence number is: ");
                         mcu.loadProgram(Program2.PrintResult1);
                         cpu.setPC(Const.PG2_BASE4);
                         do{
@@ -701,7 +697,20 @@ public class ControlPanel extends JFrame{
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                             cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
-                        }while(cpu.getPC() <= Const.PG2_END4 && cpu.getPC() >= Const.PG2_BASE4);
+                            System.out.println(mcu.fetchFromMemory(30)+" ");
+                        } while(cpu.getPC() <= Const.PG2_END4 && cpu.getPC() >= Const.PG2_BASE4);
+                        
+                        //print 2
+                        System.out.println("print result in address 29");
+                        printConsole("the sentence number is: ");
+                        mcu.loadProgram(Program2.PrintResult2);
+                        cpu.setPC(Const.PG2_BASE5);
+                        do{
+                            cpu.setMAR(cpu.getPC());
+                            cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+                            cpu.setIR(cpu.getIntMBR());
+                            runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
+                        }while(cpu.getPC() <= Const.PG2_END5 && cpu.getPC() >= Const.PG2_BASE5);
                         refreshPanel();                                
                       
                         program2Step = 0;

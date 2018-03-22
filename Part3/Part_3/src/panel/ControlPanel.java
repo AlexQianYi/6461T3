@@ -672,6 +672,7 @@ public class ControlPanel extends JFrame{
                         printConsole("search reault is ");
                         mcu.loadProgram(Program2.PROGRAM2_2);
                         cpu.setPC(Const.PG2_BASE2);
+                        mcu.setKeyboardBuffer(text_console_keyboard.getText());
                         do{
                             cpu.setMAR(cpu.getPC());
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));

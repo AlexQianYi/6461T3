@@ -38,12 +38,7 @@ public class STR extends Abstractinstruction {
 		cpu.setMAR(effectiveAddress);
 		cpu.setMBR(cpu.getRnByNum(r));
                 
-                if(i==0){
-                    mcu.storeIntoCache(cpu.getMAR(), cpu.getIntMBR());
-                }
-                else{
-                    mcu.storeIntoCache(mcu.fetchFromMemory(cpu.getMAR()), cpu.getIntMBR());
-                }
+                mcu.storeIntoCache(cpu.getMAR(), cpu.getIntMBR());
 
 		cpu.increasePC();
 	}

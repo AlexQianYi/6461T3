@@ -84,7 +84,7 @@ public class Program2 {
         PROGRAM2_2.put("1702", 0xe31);      //LDA R2<-m(17)     R2=1701
         PROGRAM2_2.put("1703", 0x1a14);     //AIR R2<-R2+imm(20)R2=1721
         PROGRAM2_2.put("1704", 0xa11);      //STR m(17)<-R2     m(17)=1721
-        PROGRAM2_2.put("1705", 0x2931);     //JZ
+        PROGRAM2_2.put("1705", 0x2931);     //JZ if input zero
         
         PROGRAM2_2.put("1706", 0xf901);     //OUT output<-R1
         //update length

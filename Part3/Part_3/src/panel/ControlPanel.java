@@ -678,6 +678,7 @@ public class ControlPanel extends JFrame{
                             cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
                             System.out.println(mcu.fetchFromMemory(80)+" ");
+                            System.out.println(mcu.fetchFromMemory(81)+" ");
                         }while(cpu.getPC()<=Const.PG2_END2 && cpu.getPC() > Const.PG2_BASE2);
                         
                         //search word

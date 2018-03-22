@@ -87,9 +87,11 @@ public class Program2 {
         PROGRAM2_2.put("1705", 0x2931);     //JZ
         
         PROGRAM2_2.put("1706", 0xf901);     //OUT output<-R1
+        //update length
         PROGRAM2_2.put("1707", 0xc3e);      //LDA R0<-m(30)     R0=0    length of word
         PROGRAM2_2.put("1708", 0x1801);     //AIR R0<-R0+imm(1) R0=1
         PROGRAM2_2.put("1709", 0x81e);      //STR m(30)<-R0
+        //update word index
         PROGRAM2_2.put("1710", 0xc33);      //LDA R0<-m(19)     R0=79
         PROGRAM2_2.put("1711", 0x1801);     //AIR R0<-R0+imm(1) R0=80
         PROGRAM2_2.put("1712", 0x813);      //STR m(19)<-R0

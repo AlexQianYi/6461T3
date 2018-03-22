@@ -98,6 +98,13 @@ public class Program2 {
         PROGRAM2_2.put("1715", 0x1e14);     //SIR R2<-R2-imm(20)
         PROGRAM2_2.put("1716", 0xa11);      //STR m(17)<-R2
         PROGRAM2_2.put("1717", 0x3431);     //JMA PC<-1701
+        
+        PROGRAM2_2.put("1721", 0x7d8f);     //SRC reset R1
+        PROGRAM2_2.put("1722", 0x190a);     //AIR R1<-R1+imm(10)
+        PROGRAM2_2.put("1723", 0xf901);     //OUT R1
+        PROGRAM2_2.put("1724", 0xb13);      //STR m(19)<-R3
+        
+        
     }
     
     //search word in sentences

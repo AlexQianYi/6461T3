@@ -632,12 +632,12 @@ public class ControlPanel extends JFrame{
                     
                     //TODO: add readfiles here
                     //String sentences = readfiles();
-                    String sentences = "Hello every one this is team 3."
-                            +"Our team members are Yi Qian, Kailing Huang, Siyu Sun, Xiaokun Xu."
-                            +"We are from China different provinces."
-                            +"Python is our favourite programming language."
-                            +"It has efficient data structure and simple grammer."
-                            +"Python makes program easier!";
+                    String sentences = "Hello every one this is team 3. "
+                            +"Our team members are Yi Qian, Kailing Huang, Siyu Sun, Xiaokun Xu. "
+                            +"We are from China different provinces. "
+                            +"Python is our favourite programming language. "
+                            +"It has efficient data structure and simple grammer. "
+                            +"Python makes program easier. ";
                     mcu.setCardBuffer(sentences);
                     mcu.loadProgram(Program2.PRE);
                     mcu.loadProgram(Program2.PROGRAM2_1);

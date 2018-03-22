@@ -95,7 +95,7 @@ public class Program2 {
         PROGRAM2_2.put("1710", 0xc33);      //LDA R0<-m(19)     R0=79
         PROGRAM2_2.put("1711", 0x1801);     //AIR R0<-R0+imm(1) R0=80
         PROGRAM2_2.put("1712", 0x813);      //STR m(19)<-R0
-        PROGRAM2_2.put("1713", 0x933);      //STR m(m(19))<-R1  store word at 80
+        PROGRAM2_2.put("1713", 0x933);      //STR m(m(19))<-R1  store word at 80 I=1
         PROGRAM2_2.put("1714", 0xe31);      //LDA R2<-m(17)     R2=1721
         PROGRAM2_2.put("1715", 0x1e14);     //SIR R2<-R2-imm(20)
         PROGRAM2_2.put("1716", 0xa11);      //STR m(17)<-R2

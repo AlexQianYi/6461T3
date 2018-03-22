@@ -112,7 +112,7 @@ public class Program2 {
     static{
            PROGRAM2_3.put("900", 0x61f);        //LDA R3<-m(31)     R3=0
            PROGRAM2_3.put("901", 0x1a01);       //AIR R3<-R3+imm(1) R3=1
-           PROGRAM2_3.put("902", 0x422f);       //SOB
+           PROGRAM2_3.put("902", 0x462f);       //SOB --------------------
            PROGRAM2_3.put("903", 0x342e);       //JMA PC<-m(14)     jump to end of program 989
            PROGRAM2_3.put("904", 0x416);        //LDR R0<-m(22)     R0=i
            PROGRAM2_3.put("905", 0x1801);       //AIR R0<-R0+imm(1)

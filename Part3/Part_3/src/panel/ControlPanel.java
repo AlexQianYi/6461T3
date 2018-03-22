@@ -679,7 +679,7 @@ public class ControlPanel extends JFrame{
                         }while(cpu.getPC()<=Const.PG2_END2 && cpu.getPC() > Const.PG2_BASE2);
                         
                         //search word
-                        printConsole("the word in number: ");
+                        printConsole("the word number is: ");
                         mcu.loadProgram(Program2.PROGRAM2_3);
                         cpu.setPC(Const.PG2_BASE3);
                         do{
@@ -698,7 +698,6 @@ public class ControlPanel extends JFrame{
                             cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                             cpu.setIR(cpu.getIntMBR());
                             runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
-                            System.out.println(mcu.fetchFromMemory(30)+" ");
                         } while(cpu.getPC() <= Const.PG2_END4 && cpu.getPC() >= Const.PG2_BASE4);
                         
                         //print 2

@@ -82,7 +82,7 @@ public class ControlPanel extends JFrame{
 
     private void initComponents()
     {
-        this.frame = new JFrame("part2");
+        this.frame = new JFrame("part3");
         this.frame.setLayout(new BorderLayout(10,10));
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLocation(500,50);

@@ -432,20 +432,22 @@ public class ControlPanel extends JFrame{
                 ShowNumberX(getTextX1, getTextX2, getTextX3, cpu.getXnByNum(0), cpu.getXnByNum(1), cpu.getXnByNum(2), false);
                 ShowNumberO(getTextPC, getTextMAR, getTextMBR, getTextIR, cpu.getPC(), cpu.getMAR(), cpu.getMBR(), cpu.getIR(), false);
                 Continue = false;
-            }
+            }                        
         });
+        
         this.panel_mfranddeposit.add(this.panel_Mfr,BorderLayout.CENTER);
         this.panel_mfranddeposit.add(this.panel_deposit,BorderLayout.EAST);      
         this.panel_register.add(this.panel_mfranddeposit);
-
+        
         //panel instruction
-        this.panel_instruction=new JPanel(null);
+        this.panel_instruction=new JPanel();
         this.panel_instruction.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
         this.instruction=new JRadioButton[20];
         this.label_instruction=new JLabel("Instruction");
         this.label_instruction.setPreferredSize(new Dimension(100,10));
         this.button_execute=new JButton("Execute");
         this.button_execute.setPreferredSize(new Dimension(100,50));
+        
        
         
              

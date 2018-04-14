@@ -51,7 +51,7 @@ public class ControlPanel extends JFrame{
    private JTable text_console_cache;
    private JScrollPane scrollPane_cache, scrollPane_console_printer;
    
-   private JButton button_load,button_find, button_compare,button_read20number,button_execute,button_p1,button_p2,button_enter,button_run,button_halt,button_deposit,button_singlestep,button_console,button_memory,button_IPL;
+   private JButton button_load,button_find, button_compare,button_read20number,button_p1,button_p2,button_enter,button_run,button_halt,button_deposit,button_singlestep,button_console,button_memory,button_IPL;
    private JRadioButton[] instruction;
    
    private String getTextPC, getTextR0, getTextR1, getTextR2, getTextR3, getTextX1, getTextX2, getTextX3, getTextMAR, getTextMBR, getTextIR;
@@ -77,7 +77,8 @@ public class ControlPanel extends JFrame{
    int tempPC;
    String tempIR;
 
-        
+   private JButton FloatAdd_Button, VectorAdd_Button, FloatConver_Button;
+   private JLabel P4space1, P4space2;
 
 
     private void initComponents()
@@ -432,66 +433,74 @@ public class ControlPanel extends JFrame{
                 ShowNumberX(getTextX1, getTextX2, getTextX3, cpu.getXnByNum(0), cpu.getXnByNum(1), cpu.getXnByNum(2), false);
                 ShowNumberO(getTextPC, getTextMAR, getTextMBR, getTextIR, cpu.getPC(), cpu.getMAR(), cpu.getMBR(), cpu.getIR(), false);
                 Continue = false;
-            }
+            }                        
         });
+        
         this.panel_mfranddeposit.add(this.panel_Mfr,BorderLayout.CENTER);
         this.panel_mfranddeposit.add(this.panel_deposit,BorderLayout.EAST);      
         this.panel_register.add(this.panel_mfranddeposit);
-
+        
         //panel instruction
-        this.panel_instruction=new JPanel(null);
+        this.panel_instruction=new JPanel();
         this.panel_instruction.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
-        this.instruction=new JRadioButton[20];
-        this.label_instruction=new JLabel("Instruction");
-        this.label_instruction.setPreferredSize(new Dimension(100,10));
-        this.button_execute=new JButton("Execute");
-        this.button_execute.setPreferredSize(new Dimension(100,50));
-       
         
-             
+        this.label_instruction=new JLabel("Float/Vector Test:");
+        this.label_instruction.setPreferredSize(new Dimension(120,10));
         this.panel_instruction.add(this.label_instruction);
-        for(int i=0; i<20;i++)
-        {
-            this.instruction[i]=new JRadioButton("");
-            this.instruction[i].setPreferredSize(new Dimension(30,30));
-            
-        }
-
-        for(int i=0;i<16;i++)
-            this.panel_instruction.add(this.instruction[i]);  
-        this.panel_instruction.add(this.button_execute);
         
-   
-        this.panel_leftbot.add(this.panel_instruction);
+        this.FloatAdd_Button = new JButton("Float Add/Sub");
+        this.FloatAdd_Button.setPreferredSize(new Dimension(140,50));
+        this.panel_instruction.add(this.FloatAdd_Button);
         
+        this.FloatConver_Button = new JButton("Float Conver");
+        this.FloatConver_Button.setPreferredSize(new Dimension(140,50));
+        this.panel_instruction.add(this.FloatConver_Button);
         
+        this.VectorAdd_Button = new JButton("Vector Add/Sub");
+        this.VectorAdd_Button.setPreferredSize(new Dimension(140,50));
+        this.panel_instruction.add(this.VectorAdd_Button);   
+        this.panel_leftbot.add(this.panel_instruction);               
         
         
         
        //panel memory
         this.panel_memory=new JPanel(null);
-        this.panel_memory.setLayout(new FlowLayout(FlowLayout.RIGHT,30,10));       
-        this.label_Address=new JLabel("Address:");
-        this.text_Address=new JTextField();
-        this.text_Address.setPreferredSize(new Dimension(80, 30));     
+        this.panel_memory.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
+        
+        this.label_program1=new JLabel("Program 1: ");
+        this.label_program1.setPreferredSize(new Dimension(120,50));
+        this.label_program1.setHorizontalAlignment(JLabel.RIGHT);
+        this.panel_memory.add(label_program1);
+        
+        this.button_read20number=new JButton("Read");
+        this.button_read20number.setPreferredSize(new Dimension(140, 50));
+        this.panel_memory.add(button_read20number);
+        
+        this.button_compare=new JButton("Compare");
+        this.button_compare.setPreferredSize(new Dimension(140, 50));
+        this.panel_memory.add(button_compare);
+        
+        this.label_program2=new JLabel("Program 2: ");
+        this.label_program2.setPreferredSize(new Dimension(120,50));
+        this.label_program2.setHorizontalAlignment(JLabel.RIGHT);
+        this.panel_memory.add(label_program2);
+        
+        this.button_load=new JButton("Load");
+        this.button_load.setPreferredSize(new Dimension(140, 50));
+        this.panel_memory.add(button_load);
+        
+        this.button_find=new JButton("Find");
+        this.button_find.setPreferredSize(new Dimension(140, 50));
+        this.panel_memory.add(button_find);
+      
+            
         this.label_Value=new JLabel("Value:");
         this.text_Val=new JTextField();
-        this.text_Val.setPreferredSize(new Dimension(100, 30));
+        this.text_Val.setPreferredSize(new Dimension(80, 30));
         this.button_memory=new JButton("Deposit / Search");
         this.button_memory.setPreferredSize(new Dimension(140, 50));
-        this.button_compare=new JButton("Compare");
-        this.button_compare.setPreferredSize(new Dimension(90, 50));
-        this.button_read20number=new JButton("Read");
-        this.button_read20number.setPreferredSize(new Dimension(80, 50));
-        this.label_program1=new JLabel("Program1:");
-        
-        this.panel_memory.add(label_program1);
-        this.panel_memory.add(this.button_read20number);
-        this.panel_memory.add(this.button_compare);
         
      
-        this.panel_memory.add(this.label_Address);
-        this.panel_memory.add(this.text_Address);
         this.panel_memory.add(this.label_Value);
         this.panel_memory.add(this.text_Val);
         this.panel_memory.add(this.button_memory);
@@ -597,7 +606,19 @@ public class ControlPanel extends JFrame{
 
 
         //panel control by single step run halt
-        this.panel_control=new JPanel(new FlowLayout(FlowLayout.RIGHT,30,10));
+        this.panel_control=new JPanel(new FlowLayout(FlowLayout.LEFT,10,10));
+        
+        this.label_Address=new JLabel("Address: ");
+        this.label_Address.setPreferredSize(new Dimension(120,50));
+        this.label_Address.setHorizontalAlignment(JLabel.RIGHT);
+        this.panel_control.add(label_Address);
+        
+        this.text_Address=new JTextField();
+        this.text_Address.setPreferredSize(new Dimension(80, 30));
+        this.panel_control.add(this.text_Address);
+        
+        
+        
         this.button_IPL=new JButton("IPL");
         this.button_IPL.setPreferredSize(new Dimension(156, 50));
         this.button_singlestep=new JButton("Single");
@@ -823,7 +844,6 @@ public class ControlPanel extends JFrame{
         this.panel_clearbutton.add(this.button_enter); 
         
         //disable all button
-       this.button_execute.setEnabled(false);
        this.button_compare.setEnabled(false);
        this.button_read20number.setEnabled(false);
        this.button_load.setEnabled(false);
@@ -897,7 +917,6 @@ public class ControlPanel extends JFrame{
    
        
     private void enableButton(){
-        this.button_execute.setEnabled(true);
         this.button_compare.setEnabled(true);
         this.button_read20number.setEnabled(true);
         this.button_load.setEnabled(true);

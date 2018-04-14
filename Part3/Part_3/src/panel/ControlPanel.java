@@ -77,7 +77,7 @@ public class ControlPanel extends JFrame{
    int tempPC;
    String tempIR;
 
-        
+   private JButton FloatAdd_Button, VectorAdd_Button, FloatConver_Button;
 
 
     private void initComponents()
@@ -442,26 +442,19 @@ public class ControlPanel extends JFrame{
         //panel instruction
         this.panel_instruction=new JPanel();
         this.panel_instruction.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
-        this.instruction=new JRadioButton[20];
-        this.label_instruction=new JLabel("Instruction");
+        
+        this.label_instruction=new JLabel("Float/Vector/Pipline Test");
         this.label_instruction.setPreferredSize(new Dimension(100,10));
-        this.button_execute=new JButton("Execute");
-        this.button_execute.setPreferredSize(new Dimension(100,50));
-        
-       
-        
-             
         this.panel_instruction.add(this.label_instruction);
-        for(int i=0; i<20;i++)
-        {
-            this.instruction[i]=new JRadioButton("");
-            this.instruction[i].setPreferredSize(new Dimension(30,30));
-            
-        }
-
-        for(int i=0;i<16;i++)
-            this.panel_instruction.add(this.instruction[i]);  
-        this.panel_instruction.add(this.button_execute);
+        this.FloatAdd_Button = new JButton("Float Add/Sub");
+        this.panel_instruction.add(this.FloatAdd_Button);
+        this.FloatConver_Button = new JButton("Float Conversion");
+        this.panel_instruction.add(this.FloatConver_Button);
+        this.VectorAdd_Button = new JButton("Vector Add/Sub");
+        this.panel_instruction.add(this.VectorAdd_Button);
+        
+        this.label_instruction.setPreferredSize(new Dimension(100,10));
+        this.button_execute.setPreferredSize(new Dimension(100,50));       
         
    
         this.panel_leftbot.add(this.panel_instruction);

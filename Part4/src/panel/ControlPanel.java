@@ -83,7 +83,7 @@ public class ControlPanel extends JFrame{
 
     private void initComponents()
     {
-        this.frame = new JFrame("part3");
+        this.frame = new JFrame("part4");
         this.frame.setLayout(new BorderLayout(10,10));
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLocation(500,50);
@@ -461,8 +461,7 @@ public class ControlPanel extends JFrame{
         this.panel_instruction.add(this.VectorAdd_Button);   
         this.panel_leftbot.add(this.panel_instruction);               
         
-        
-        
+            
        //panel memory
         this.panel_memory=new JPanel(null);
         this.panel_memory.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
@@ -492,37 +491,9 @@ public class ControlPanel extends JFrame{
         this.button_find=new JButton("Find");
         this.button_find.setPreferredSize(new Dimension(140, 50));
         this.panel_memory.add(button_find);
-      
-            
-        this.label_Value=new JLabel("Value:");
-        this.text_Val=new JTextField();
-        this.text_Val.setPreferredSize(new Dimension(80, 30));
-        this.button_memory=new JButton("Deposit / Search");
-        this.button_memory.setPreferredSize(new Dimension(140, 50));
         
-     
-        this.panel_memory.add(this.label_Value);
-        this.panel_memory.add(this.text_Val);
-        this.panel_memory.add(this.button_memory);
-        this.button_memory.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Mem");
-                getKey = text_Address.getText();
-                getValue = text_Val.getText();
-                System.out.println(getValue);
-                if(getValue.equals("")){
-                    SearchINAddress(getKey);
-                }
-                else{
-                    DepositINAddress(getKey, getValue);
-                }
-            }
-        });
         this.panel_memory.setPreferredSize(new Dimension(30, 1500));
         this.panel_leftbot.add(this.panel_memory);
-
-       
         
          /**
           * Read 20 numbers ========================================================
@@ -603,45 +574,6 @@ public class ControlPanel extends JFrame{
                 }
             }
         });
-
-
-        //panel control by single step run halt
-        this.panel_control=new JPanel(new FlowLayout(FlowLayout.LEFT,10,10));
-        
-        this.label_Address=new JLabel("Address: ");
-        this.label_Address.setPreferredSize(new Dimension(120,50));
-        this.label_Address.setHorizontalAlignment(JLabel.RIGHT);
-        this.panel_control.add(label_Address);
-        
-        this.text_Address=new JTextField();
-        this.text_Address.setPreferredSize(new Dimension(80, 30));
-        this.panel_control.add(this.text_Address);
-        
-        
-        
-        this.button_IPL=new JButton("IPL");
-        this.button_IPL.setPreferredSize(new Dimension(156, 50));
-        this.button_singlestep=new JButton("Single");
-        this.button_singlestep.setPreferredSize(new Dimension(90, 50));
-        this.button_run=new JButton("Run");        
-        this.button_run.setPreferredSize(new Dimension(90, 50));
-        this.button_halt=new JButton("Halt");
-        this.button_halt.setPreferredSize(new Dimension(90, 50));
-        this.button_load=new JButton("Load");
-        this.button_load.setPreferredSize(new Dimension(90, 50));
-        this.button_find=new JButton("Find");
-        this.button_find.setPreferredSize(new Dimension(90, 50));
-        this.label_program2=new JLabel("Program2:");
-        
-        this.panel_control.add(this.label_program2);
-        this.panel_control.add(this.button_load);
-        this.panel_control.add(this.button_find);
-        this.panel_control.add(this.button_singlestep);
-        this.panel_control.add(this.button_run);
-        this.panel_control.add(this.button_halt);
-        this.panel_control.add(this.button_IPL);
-       
-        this.panel_leftbot.add(this.panel_control);
         
         //Load sentence
         this.button_load.addActionListener(new java.awt.event.ActionListener(){
@@ -745,7 +677,71 @@ public class ControlPanel extends JFrame{
                     
                 }    
             }
-        });        
+        });   
+
+
+
+        //panel control by single step run halt
+        this.panel_control=new JPanel(new FlowLayout(FlowLayout.LEFT,10,10));
+        
+        this.label_Address=new JLabel("Address: ");
+        this.label_Address.setPreferredSize(new Dimension(120,50));
+        this.label_Address.setHorizontalAlignment(JLabel.RIGHT);
+        this.panel_control.add(label_Address);
+        
+        this.text_Address=new JTextField();
+        this.text_Address.setPreferredSize(new Dimension(80, 30));
+        this.panel_control.add(this.text_Address);
+        
+        this.label_Value=new JLabel("Value:");
+        this.label_Value.setPreferredSize(new Dimension(40,50));
+        this.label_Value.setHorizontalAlignment(JLabel.RIGHT);
+        this.panel_control.add(label_Value);
+                         
+        this.text_Val=new JTextField();
+        this.text_Val.setPreferredSize(new Dimension(80, 30));
+        this.panel_control.add(text_Val);
+        
+        this.button_memory=new JButton("D/S");
+        this.button_memory.setPreferredSize(new Dimension(60, 50));
+        this.panel_control.add(button_memory);
+        
+        this.button_singlestep=new JButton("Single");
+        this.button_singlestep.setPreferredSize(new Dimension(90, 50));
+        this.panel_control.add(this.button_singlestep);
+        
+        this.button_run=new JButton("Run");        
+        this.button_run.setPreferredSize(new Dimension(90, 50));
+        this.panel_control.add(this.button_run);
+        
+        this.button_halt=new JButton("Halt");
+        this.button_halt.setPreferredSize(new Dimension(90, 50));
+        this.panel_control.add(this.button_halt);
+               
+        this.button_IPL=new JButton("IPL");
+        this.button_IPL.setPreferredSize(new Dimension(120, 50));
+        this.panel_control.add(this.button_IPL);
+       
+        this.panel_leftbot.add(this.panel_control);
+        
+        
+        this.button_memory.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Mem");
+                getKey = text_Address.getText();
+                getValue = text_Val.getText();
+                System.out.println(getValue);
+                if(getValue.equals("")){
+                    SearchINAddress(getKey);
+                }
+                else{
+                    DepositINAddress(getKey, getValue);
+                }
+            }
+        });
+        
+
         
         this.button_singlestep.addActionListener(new java.awt.event.ActionListener() {
             @Override

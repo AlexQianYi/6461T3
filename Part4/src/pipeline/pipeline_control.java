@@ -72,17 +72,7 @@ public class pipeline_control {
         
     }
     
-    private synchronized boolean VisitIF_ID(int sign){
-        if(sign==0){
-            if(PC.size()==0){
-                return false;
-            } else{
-                return true;
-            }
-        }else{
-            return true;
-        }
-    }
+
     
     // Fetch task
     private class Fetch implements Runnable{
@@ -111,7 +101,29 @@ public class pipeline_control {
         }
     
     }
-    
-    private synchronized boolean Visit
+ 
+    private synchronized boolean VisitIF_ID(int sign){
+        if(sign==0){
+            if(PC.size()==0){
+                return false;
+            } else{
+                return true;
+            }
+        }else{
+            return true;
+        }
+    }
+        
+    private synchronized boolean VisitID_EX(int sign){
+        if(sign==0){
+            if(Instruction.size()==0){
+                return false;
+            } else{
+                return true;
+            }
+        }else{
+            return true;
+        }        
+    }
     
 }

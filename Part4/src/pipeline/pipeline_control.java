@@ -41,7 +41,7 @@ public class pipeline_control {
     private Queue<String> Instruction2;
     private Queue<Integer> Address1;
     private Queue<Integer> Address2;
-    private Queue<String> Content;
+    private Queue<Integer> Content;
     
     
     
@@ -52,7 +52,7 @@ public class pipeline_control {
         this.Instruction2 = new LinkedList<String>();
         this.Address1 = new LinkedList<Integer>();
         this.Address2 = new LinkedList<Integer>();
-        this.Content = new LinkedList<String>();
+        this.Content = new LinkedList<Integer>();
         this.PCstart = PCstart;
         this.PCend = PCend;
         this.cpu = cpu;
@@ -72,7 +72,17 @@ public class pipeline_control {
         MEM_thread.start();
         WB_thread.start();
         
-        while(PC.size()!=0 || ID_EX_size!=0 && EX_MEM_size!=0 && MEM_WB_size!=0){
+        while((!Content.isEmpty()) || (!PC.isEmpty()) || (!Instruction.isEmpty()) || (!Order.isEmpty()) || (!Instruction2.isEmpty()) || Address1.size()!=0 || !Address2.isEmpty()){
+            
+            try {
+                IF_thread.join();
+                ID_thread.join();
+                EX_thread.join();
+                MEM_thread.join();
+                WB_thread.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(pipeline_control.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         }
         
@@ -181,6 +191,54 @@ public class pipeline_control {
             System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- execute end");  
         }
         
+    }
+    
+    private class MEM implements Runnable{
+
+        @Override
+        public void run() {
+            
+            int Address_temp1;
+            int Address_temp2;
+            
+            if(VisitMEM(0)){
+                Address_temp1 = Address1.remove();
+                Address_temp2 = mcu.fetchFromMemory(Address_temp1);
+                Address2.add(Address_temp2);
+            }else{
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(pipeline_control.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+    }
+    
+    private class WB implements Runnable{
+
+        @Override
+        public void run() {
+            
+            int Address_temp;
+            int Content_temp;
+            
+            if(VisitWB(0)){
+                Address_temp = Address2.remove();
+                Content_temp = Content.remove();
+                mcu.storeInMemory(Address_temp, Content_temp);
+                
+                
+            }else{
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(pipeline_control.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    
     }
  
     private synchronized boolean VisitIF_ID(int sign){

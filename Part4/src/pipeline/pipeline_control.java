@@ -7,10 +7,15 @@ package pipeline;
 
 import java.util.concurrent.SynchronousQueue;
 import cpu.CPU;
+import instruction.Abstractinstruction;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import memory.MCU;
+import util.Const;
+import util.MachineFaultException;
 
 /**
  *
@@ -23,13 +28,6 @@ public class pipeline_control {
     private CPU cpu;
     private MCU mcu;
     
-    // pipeline task
-    private Fetch IF;
-    private Decode ID;
-    private Execute EX;
-    private Mem MEM;
-    private WriteBack WB;
-    
     // pipeline thread
     private Thread IF_thread;
     private Thread ID_thread;
@@ -39,14 +37,22 @@ public class pipeline_control {
     
     private Queue<Integer> PC;
     private Queue<String> Instruction;
-    private ArrayList<String> Order;
-    private ArrayList<Integer> Memory2Visit;
+    private Queue<Abstractinstruction> Order;
+    private Queue<String> Instruction2;
+    private Queue<Integer> Address1;
+    private Queue<Integer> Address2;
+    private Queue<String> Content;
     
     
     
     public pipeline_control(int PCstart, int PCend, CPU cpu, MCU mcu ){
         this.PC = new LinkedList<Integer>();
         this.Instruction = new LinkedList<String>();
+        this.Order = new LinkedList<Abstractinstruction>();
+        this.Instruction2 = new LinkedList<String>();
+        this.Address1 = new LinkedList<Integer>();
+        this.Address2 = new LinkedList<Integer>();
+        this.Content = new LinkedList<String>();
         this.PCstart = PCstart;
         this.PCend = PCend;
         this.cpu = cpu;
@@ -90,16 +96,91 @@ public class pipeline_control {
                     cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
                     cpu.setIR(cpu.getIntMBR());
                     Instruction.add(cpu.getBinaryStringOfIR());
+                    System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- get instruction from (PC): " + PC_temp);                    
                 }else{
                     Thread.sleep(200);
                 }
-                System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- fetch instruction: " + data);
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
             System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- fetch end");
         }
     
+    }
+    
+    private class Decode implements Runnable{
+
+        @Override
+        public void run() {
+            
+            String instruction_temp;
+            Abstractinstruction instr;
+            System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- decode start");
+            try{
+                if(VisitID_EX(0)){
+                    instruction_temp = Instruction.remove();
+                    String opCode = instruction_temp.substring(0, 6);
+                    try {
+                        if (Const.OPCODE.containsKey(opCode)) {
+                            instr = (Abstractinstruction) Class
+                                    .forName("instruction." + Const.OPCODE.get(opCode)).newInstance();
+                            Order.add(instr);
+                            Instruction2.add(instruction_temp);
+                            System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- decode instruction: " + instruction_temp);                             
+
+                        } else {
+                            // we don't have that kind of instruction
+                            throw new MachineFaultException(Const.FaultCode.ILL_OPRC.getValue(),
+                                    Const.FaultCode.ILL_OPRC.getMessage());
+                        }
+                    } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (MachineFaultException t) {
+                        // handle the machine fault
+
+                        t.printStackTrace();
+                        //handleMachineFault(t.getFaultCode(), t.getMessage());
+                    }                   
+                }else{
+                    Thread.sleep(200);
+                }
+            }catch(InterruptedException e){
+                e.printStackTrace();               
+            }
+            System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- decode end");            
+
+        }
+        
+    }
+    
+    private class Execute implements Runnable{
+
+        @Override
+        public void run() {
+            Abstractinstruction instr;
+            String instruction;
+            System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- execute start");
+            try{
+                if(VisitEX(0)){
+                    instr = Order.remove();
+                    instruction = Instruction2.remove();
+                    try {
+                        instr.execute(instruction, cpu, mcu);
+                        System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- execute instruction: " + instruction); 
+                    } catch (MachineFaultException ex) {
+                        Logger.getLogger(pipeline_control.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                                                    
+                }else{
+                    Thread.sleep(200);
+                }
+            }catch(InterruptedException e){
+                e.printStackTrace();               
+            }
+            System.out.println("Thread Id: " + Thread.currentThread().getId() + " --- execute end");  
+        }
+        
     }
  
     private synchronized boolean VisitIF_ID(int sign){
@@ -126,4 +207,40 @@ public class pipeline_control {
         }        
     }
     
+    private synchronized boolean VisitEX(int sign){
+        if(sign==0){
+            if(Order.size()==0 || Instruction2.size()==0){
+                return false;
+            } else{
+                return true;
+            }
+        }else{
+            return true;
+        }        
+    }    
+    
+    private synchronized boolean VisitMEM(int sign){
+        if(sign ==0){
+            if(Address1.size()==0){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            return true;
+        }
+    }
+    
+    private synchronized boolean VisitWB(int sign){
+        if(sign==0){
+            if(Address2.size()==0 || Content.size()==0){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            return true;
+        }
+        
+    }
 }

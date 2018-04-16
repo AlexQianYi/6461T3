@@ -499,6 +499,49 @@ public class ControlPanel extends JFrame{
             }
         });
         
+        this.FloatConver_Button.addActionListener(new java.awt.event.ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                    // read 20 number from console
+                        mcu.setKeyboardBuffer(text_console_keyboard.getText());
+                        if (text_console_keyboard.getText()==null || text_console_keyboard.getText().length()==0){
+                            JOptionPane.showMessageDialog(null, "type numbers in the console keyboard");
+                        }else{
+                            String[] temp_string = text_console_keyboard.getText().split(" ");
+                            float num1 = Float.parseFloat(temp_string[0]);
+                            float result1=0;
+                            int result2 = 0;
+                            String op=temp_string[2];
+                            String fixed_num = "0";
+                            String float_num = "1";
+                            DecimalFormat fnum = new DecimalFormat("##0.00000000");
+                            
+                            if(op.equals(fixed_num)){
+                                result1 = (float) (Float.parseFloat(temp_string[0])* Math.pow(10, Integer.parseInt(temp_string[1])));
+                                result2 = 0;
+                            }else{
+                                result1 = Float.parseFloat(temp_string[0]);
+                                if(result1>10){
+                                    while(result1>10){
+                                        result2 += 1;
+                                        result1 /= 10;
+                                    }
+                                }else if(result1<1){
+                                    while(result1<1){
+                                        result2 -=1;
+                                        result1 *=10;
+                                    }
+                                }else{
+                                    result2 = 0;                         
+                                }
+                            }
+                            printConsole("the result is " + result1 + " exp is " + result2);
+                            refreshPanel();
+                    
+                }    
+            }
+        });
+        
             
        //panel memory
         this.panel_memory=new JPanel(null);

@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  * @author yiqian
  */
-public class ProgramFloatSub {
+public class ProgramFloat2Fixed {
     
     public static final HashMap<String, Integer> StoreFloat = new HashMap<>();
     static{
@@ -76,15 +76,15 @@ public class ProgramFloatSub {
         StoreFloat.put("370", 0x81e);       //STR c(30)<-R0 
     }    
     
-    public static final HashMap<String, Integer> Read_FloatSub = new HashMap<>();
+    public static final HashMap<String, Integer> Float2Fixed = new HashMap<>();
     static{
 
         
-        Read_FloatSub.put("300", 0xc81c);   //LDFR Fr0<-c(28)
-        Read_FloatSub.put("302", 0x881e);   //FSUB Fr0<Fr0-c(30)
-        Read_FloatSub.put("303", 0xcc1a);   //STFR c(26)<-Fr0
-        Read_FloatSub.put("304", 0x0c1a);   //LDA R0<-c(26)
-        Read_FloatSub.put("305", 0xf801);   //OUT  R0
+        Float2Fixed.put("300", 0xc81c);   //LDFR Fr0<-c(28)
+        Float2Fixed.put("302", 0x941c);   //CNVERT f=0 strore in R0
+        Float2Fixed.put("303", 0x041a);   //STR c(26)<-R0
+        Float2Fixed.put("304", 0x0c1a);   //LDA R0<-c(26)
+        Float2Fixed.put("305", 0xf801);   //OUT  R0
         
         
     }    

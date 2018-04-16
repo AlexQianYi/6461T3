@@ -980,6 +980,10 @@ public class ControlPanel extends JFrame{
        this.button_singlestep.setEnabled(false);
        this. button_console.setEnabled(false);
        this. button_memory.setEnabled(false);
+       this.FloatAdd_Button.setEnabled(false);
+       this.FloatConver_Button.setEnabled(false);
+       this.VectorAdd_Button.setEnabled(false);
+       this.VectorSub_Button.setEnabled(false);
       //
         
         
@@ -1053,6 +1057,10 @@ public class ControlPanel extends JFrame{
         this.button_singlestep.setEnabled(true);
         this. button_console.setEnabled(true);
         this. button_memory.setEnabled(true);
+        this.FloatAdd_Button.setEnabled(true);
+        this.FloatConver_Button.setEnabled(true);
+        this.VectorAdd_Button.setEnabled(true);
+        this.VectorSub_Button.setEnabled(true);
     }
     
     /* Launch the application */

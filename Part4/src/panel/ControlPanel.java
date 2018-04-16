@@ -25,10 +25,12 @@ import util.Program1;
 import instruction.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import memory.Cache;
 import util.MachineFaultException;
 import util.StringUtil;
 import util.Program2;
+import util.ProgramFloatAdd;
 
 public class ControlPanel extends JFrame{
    
@@ -467,29 +469,30 @@ public class ControlPanel extends JFrame{
                     // read 20 number from console
                         mcu.setKeyboardBuffer(text_console_keyboard.getText());
                         if (text_console_keyboard.getText()==null || text_console_keyboard.getText().length()==0){
-                            JOptionPane.showMessageDialog(null, "type 20 numbers in the console keyboard");
+                            JOptionPane.showMessageDialog(null, "type numbers in the console keyboard");
                         }else{
                             String[] temp_string = text_console_keyboard.getText().split(" ");
-                            if(temp_string[1]=="+"){
-                                printConsole("Float add");
-                                mcu.loadProgram(ProgramFloatAdd);
-                                cpu.setPC(Const.FloatAdd);
-                            }else{
-                                printConsole("Float sub");
-                                mcu.loadProgram(ProgramFloatSub);
-                                cpu.setPC(Const.FloatSub);
+                            float num1 = Float.parseFloat(temp_string[0]);
+                            float result=0;
+                            String op="+";
+                            String add = "+";
+                            String sub = "-";
+                            DecimalFormat fnum = new DecimalFormat("##0.000");
+                            for(String temp: temp_string){
+                                printConsole(temp);
+                                if(temp.equals(add)){
+                                    op = add;
+                                }else if(temp.equals(sub)){
+                                    op = sub;
+                                }else{
+                                    if(op.equals(add)){
+                                        result += Float.parseFloat(temp);
+                                    }else{
+                                        result -= Float.parseFloat(temp);
+                                    }
+                                }
                             }
-                            printConsole("the result is");
-                            mcu.loadProgram(Program1.PrePrint);
-                            mcu.loadProgram(Program1.ProgramPrint);
-                            cpu.setPC(Const.ProgramPrintBase);
-
-                            do{
-                                cpu.setMAR(cpu.getPC());
-                                cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
-                                cpu.setIR(cpu.getIntMBR());
-                                runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
-                            }while(cpu.getPC() <= Const.ProgramPrintEnd && cpu.getPC() >= Const.ProgramPrintBase);
+                            printConsole("the result is " + fnum.format(result));
                             refreshPanel();
                     
                 }    
@@ -1484,6 +1487,52 @@ public class ControlPanel extends JFrame{
     public void printConsole(String information){
         this.text_console_print.append(information + "\n");
         
+    }
+    
+    private int FloatConvert(float num){
+        String sign = "0";
+        String exp = "0000000";
+        String Man = "00000000";
+        
+        int Intpart = (int)num;
+        float Floatpart = num-Intpart;
+        
+        String Intpart_string = trans(Intpart);
+        String Floatpart_strinf = trans(Floatpart);
+        
+        if(num<0){
+            sign = "1";
+        }
+        
+        return 0;
+        
+    }
+    
+    private String trans(int num){
+        String temp = "";
+        while(num!=0){
+            temp = (num%2)+temp;
+            num = num/2;
+        }
+        return temp;
+    }
+    
+    private String trans(float num){
+        if(num>1){
+            return "false";
+        }
+        String temp = "";
+        int bit_num = 10;
+        for(int i=0; i<bit_num;i++){
+            num *=2;
+            if(num>=1){
+                temp += "1";
+                num = num-1;
+            }else{
+                temp+="0";
+            }
+        }
+        return temp;
     }
     
 }

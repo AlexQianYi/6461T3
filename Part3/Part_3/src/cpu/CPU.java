@@ -41,11 +41,11 @@ public class CPU {
 
     
     //inital the value of reg
-    public void setFR0(int num){
+    public void setFR0(float num){
         this.FR0=num;
     }
     
-    public void setFR1(int num){
+    public void setFR1(float num){
         this.FR1=num;
     }
     

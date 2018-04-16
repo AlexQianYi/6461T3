@@ -79,7 +79,7 @@ public class ControlPanel extends JFrame{
    int tempPC;
    String tempIR;
 
-   private JButton FloatAdd_Button, VectorAdd_Button, FloatConver_Button;
+   private JButton FloatAdd_Button, VectorAdd_Button, FloatConver_Button, VectorSub_Button;
    private JLabel P4space1, P4space2;
 
 
@@ -458,10 +458,14 @@ public class ControlPanel extends JFrame{
         this.FloatConver_Button.setPreferredSize(new Dimension(140,50));
         this.panel_instruction.add(this.FloatConver_Button);
         
-        this.VectorAdd_Button = new JButton("Vector Add/Sub");
+        this.VectorAdd_Button = new JButton("Vector Add");
         this.VectorAdd_Button.setPreferredSize(new Dimension(140,50));
         this.panel_instruction.add(this.VectorAdd_Button);   
-        this.panel_leftbot.add(this.panel_instruction);
+        
+        this.VectorSub_Button = new JButton("Vector Sub");
+        this.VectorSub_Button.setPreferredSize(new Dimension(140,50));
+        this.panel_instruction.add(this.VectorSub_Button);   
+        this.panel_leftbot.add(this.panel_instruction);        
         
         this.FloatAdd_Button.addActionListener(new java.awt.event.ActionListener(){
             @Override
@@ -513,7 +517,6 @@ public class ControlPanel extends JFrame{
                             int result2 = 0;
                             String op=temp_string[2];
                             String fixed_num = "0";
-                            String float_num = "1";
                             DecimalFormat fnum = new DecimalFormat("##0.00000000");
                             
                             if(op.equals(fixed_num)){
@@ -541,6 +544,51 @@ public class ControlPanel extends JFrame{
                 }    
             }
         });
+        
+         this.VectorAdd_Button.addActionListener(new java.awt.event.ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                    // read 20 number from console
+                        mcu.setKeyboardBuffer(text_console_keyboard.getText());
+                        if (text_console_keyboard.getText()==null || text_console_keyboard.getText().length()==0){
+                            JOptionPane.showMessageDialog(null, "type numbers in the console keyboard");
+                        }else{
+                            String[] temp_string = text_console_keyboard.getText().split(" ");
+                            int num1 = Integer.parseInt(temp_string[0]);
+                            int result=0;
+                            for(String temp: temp_string){
+                                printConsole(temp);
+                                result += Integer.parseInt(temp);
+                            }
+                            printConsole("the result is " + result);
+                            refreshPanel();
+                    
+                }    
+            }
+        }); 
+         
+          this.VectorSub_Button.addActionListener(new java.awt.event.ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                    // read 20 number from console
+                        mcu.setKeyboardBuffer(text_console_keyboard.getText());
+                        if (text_console_keyboard.getText()==null || text_console_keyboard.getText().length()==0){
+                            JOptionPane.showMessageDialog(null, "type numbers in the console keyboard");
+                        }else{
+                            String[] temp_string = text_console_keyboard.getText().split(" ");
+                            int num1 = Integer.parseInt(temp_string[0]);
+                            int result=0;
+                            for(String temp: temp_string){
+                                printConsole(temp);
+                                result -= Integer.parseInt(temp);
+                            }
+                            result += 2*Integer.parseInt(temp_string[0]);
+                            printConsole("the result is " + result);
+                            refreshPanel();
+                    
+                }    
+            }
+        });         
         
             
        //panel memory

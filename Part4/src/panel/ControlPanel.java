@@ -459,7 +459,42 @@ public class ControlPanel extends JFrame{
         this.VectorAdd_Button = new JButton("Vector Add/Sub");
         this.VectorAdd_Button.setPreferredSize(new Dimension(140,50));
         this.panel_instruction.add(this.VectorAdd_Button);   
-        this.panel_leftbot.add(this.panel_instruction);               
+        this.panel_leftbot.add(this.panel_instruction);
+        
+        this.FloatAdd_Button.addActionListener(new java.awt.event.ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                    // read 20 number from console
+                        mcu.setKeyboardBuffer(text_console_keyboard.getText());
+                        if (text_console_keyboard.getText()==null || text_console_keyboard.getText().length()==0){
+                            JOptionPane.showMessageDialog(null, "type 20 numbers in the console keyboard");
+                        }else{
+                            String[] temp_string = text_console_keyboard.getText().split(" ");
+                            if(temp_string[1]=="+"){
+                                printConsole("Float add");
+                                mcu.loadProgram(ProgramFloatAdd);
+                                cpu.setPC(Const.FloatAdd);
+                            }else{
+                                printConsole("Float sub");
+                                mcu.loadProgram(ProgramFloatSub);
+                                cpu.setPC(Const.FloatSub);
+                            }
+                            printConsole("the result is");
+                            mcu.loadProgram(Program1.PrePrint);
+                            mcu.loadProgram(Program1.ProgramPrint);
+                            cpu.setPC(Const.ProgramPrintBase);
+
+                            do{
+                                cpu.setMAR(cpu.getPC());
+                                cpu.setMBR(mcu.fetchFromCache(cpu.getMAR()));
+                                cpu.setIR(cpu.getIntMBR());
+                                runInstruction(cpu.getBinaryStringOfIR(), cpu, mcu);
+                            }while(cpu.getPC() <= Const.ProgramPrintEnd && cpu.getPC() >= Const.ProgramPrintBase);
+                            refreshPanel();
+                    
+                }    
+            }
+        });
         
             
        //panel memory

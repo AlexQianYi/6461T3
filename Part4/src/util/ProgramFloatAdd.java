@@ -83,7 +83,7 @@ public class ProgramFloatAdd {
         Read_FloatAdd.put("300", 0xc81c);   //LDFR Fr0<-c(28)
         Read_FloatAdd.put("302", 0x841e);   //FADD Fr0<Fr0+c(30)
         Read_FloatAdd.put("303", 0xcc1a);   //STFR c(26)<-Fr0
-        Read_FloatAdd.put("304", 0x0c1a);   //LDA R0<-c(32)
+        Read_FloatAdd.put("304", 0x0c1a);   //LDA R0<-c(26)
         Read_FloatAdd.put("305", 0xf801);   //OUT  R0
         
         

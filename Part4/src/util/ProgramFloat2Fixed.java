@@ -79,10 +79,10 @@ public class ProgramFloat2Fixed {
     public static final HashMap<String, Integer> Float2Fixed = new HashMap<>();
     static{
 
-        Float2Fixed.put("302", 0x901c);   //CNVERT c(28) f=0 strore in R0
-        Float2Fixed.put("303", 0x041a);   //STR c(26)<-R0
-        Float2Fixed.put("304", 0x0c1a);   //LDA R0<-c(26)
-        Float2Fixed.put("305", 0xf801);   //OUT  R0
+        Float2Fixed.put("300", 0x901c);   //CNVERT c(28) f=0 strore in R0
+        Float2Fixed.put("301", 0x041a);   //STR c(26)<-R0
+        Float2Fixed.put("302", 0x0c1a);   //LDA R0<-c(26)
+        Float2Fixed.put("303", 0xf801);   //OUT  R0
         
         
     }    

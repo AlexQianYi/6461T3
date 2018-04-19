@@ -39,10 +39,11 @@ public class pipeline_control {
     private Queue<String> Instruction;
     private Queue<Abstractinstruction> Order;
     private Queue<String> Instruction2;
-    private Queue<Integer> Address1;
     private Queue<Integer> Address2;
     private Queue<Integer> Content;
     
+    
+    private Queue<Integer> Address1;
     
     
     public pipeline_control(int PCstart, int PCend, CPU cpu, MCU mcu ){
